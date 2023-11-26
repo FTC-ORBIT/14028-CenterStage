@@ -34,6 +34,11 @@ public class TestOpMode extends OpMode {
         double x = gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
 
+        //learning exactly how everything works
+        telemetry.addData(Double.toString(y), "left y joystick input");
+        telemetry.addData(Double.toString(x), "left x joystick input");
+        telemetry.addData(Double.toString(rx), "right x joystick input");
+
         motors[0].setPower(y + x + rx);
         motors[1].setPower(y - x - rx);
         motors[2].setPower(y - x + rx);
