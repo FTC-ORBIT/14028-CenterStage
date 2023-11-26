@@ -32,11 +32,12 @@ public class TestOpMode extends OpMode {
     public void loop() {
         double y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
         double x = gamepad1.left_stick_x;
+        double rx = gamepad1.right_stick_x;
 
-        motors[0].setPower(y + x);
-        motors[1].setPower(y - x);
-        motors[2].setPower(y - x);
-        motors[3].setPower(y + x);
+        motors[0].setPower(y + x + rx);
+        motors[1].setPower(y - x - rx);
+        motors[2].setPower(y - x + rx);
+        motors[3].setPower(y + x - rx);
     }
 
 }
