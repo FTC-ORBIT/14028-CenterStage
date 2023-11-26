@@ -7,11 +7,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp(name = "Test Movement opmode")
 public class TestOpMode extends OpMode {
-
-    DcMotor lf;
-    DcMotor rf;
-    DcMotor lb;
-    DcMotor rb;
     DcMotor motors[] = new DcMotor[4];
 
     @Override
