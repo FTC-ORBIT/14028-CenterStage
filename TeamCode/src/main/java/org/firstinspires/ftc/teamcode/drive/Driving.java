@@ -5,7 +5,10 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.tel
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Driving {
 
@@ -24,7 +27,7 @@ public class Driving {
         }
     }
 
-    public void drive() {
+    public void drive(Gamepad gamepad1, Telemetry telemetry) {
         double y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
         double x = gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
@@ -33,6 +36,7 @@ public class Driving {
         telemetry.addData(Double.toString(y), "left y joystick input");
         telemetry.addData(Double.toString(x), "left x joystick input");
         telemetry.addData(Double.toString(rx), "right x joystick input");
+        telemetry.update();
 
         motors[0].setPower(y + x + rx);
         motors[1].setPower(y - x - rx);
