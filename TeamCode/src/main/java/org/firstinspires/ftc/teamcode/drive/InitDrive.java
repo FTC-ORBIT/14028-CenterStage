@@ -12,8 +12,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class InitDrive extends OpMode {
 
     Driving drive = new Driving();
-    DcMotor motors[] = new DcMotor[4];
-
 
     @Override
     public void init() {

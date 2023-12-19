@@ -9,10 +9,12 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.sensor.CHGyro;
 
 public class Driving {
-
     DcMotor motors[] = new DcMotor[4];
+
+    CHGyro chGyro = new CHGyro();
 
     public void init(HardwareMap hardwareMap) {
         motors[0] = hardwareMap.get(DcMotor.class, "lf");
@@ -25,6 +27,8 @@ public class Driving {
         for (DcMotor motor : motors) {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
+
+        chGyro.init(hardwareMap);
     }
 
     public void drive(Gamepad gamepad1, Telemetry telemetry) {
@@ -33,9 +37,12 @@ public class Driving {
         double rx = gamepad1.right_stick_x;
 
         //learning exactly how everything works
-        telemetry.addData(Double.toString(y), "left y joystick input");
-        telemetry.addData(Double.toString(x), "left x joystick input");
-        telemetry.addData(Double.toString(rx), "right x joystick input");
+        telemetry.addData("left y joystick input", Double.toString(y));
+        telemetry.addData("left x joystick input", Double.toString(x));
+        telemetry.addData( "right x joystick input", Double.toString(rx));
+
+        // printing the angle of the robot.
+        telemetry.addData( "rotating of the robot", Float.toString(chGyro.getAngle()));
         telemetry.update();
 
         motors[0].setPower(y + x + rx);
