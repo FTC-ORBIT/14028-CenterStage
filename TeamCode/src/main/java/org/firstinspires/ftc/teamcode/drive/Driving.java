@@ -28,21 +28,30 @@ public class Driving {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
-        chGyro.init(hardwareMap);
+
     }
 
     public void drive(Gamepad gamepad1, Telemetry telemetry) {
-        double y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
-        double x = gamepad1.left_stick_x;
-        double rx = gamepad1.right_stick_x;
+        float y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
+        float x = gamepad1.left_stick_x;
+        float rx = gamepad1.right_stick_x;
 
         //learning exactly how everything works
         telemetry.addData("left y joystick input", Double.toString(y));
         telemetry.addData("left x joystick input", Double.toString(x));
-        telemetry.addData( "right x joystick input", Double.toString(rx));
+        telemetry.addData("right x joystick input", Double.toString(rx));
+        telemetry.addData("rotating of the robot", Float.toString((float) chGyro.getAngle()));
 
-        // printing the angle of the robot.
-        telemetry.addData( "rotating of the robot", Float.toString(chGyro.getAngle()));
+        float cAngle = (float) Math.atan(x / y);
+        cAngle = (float) Math.toDegrees(cAngle);
+
+        telemetry.addData("controller angle", Float.toString(cAngle));
+
+        x = (float) Math.cos(Math.toRadians(cAngle - chGyro.getAngle())) * distance(x, y);
+
+        telemetry.addData("x", x);
+        telemetry.addData("y", y);
+
         telemetry.update();
 
         motors[0].setPower(y + x + rx);
@@ -51,4 +60,7 @@ public class Driving {
         motors[3].setPower(y + x - rx);
     }
 
+    private static float distance(float x, float y) {
+        return (float) Math.sqrt(x + y);
+    }
 }
