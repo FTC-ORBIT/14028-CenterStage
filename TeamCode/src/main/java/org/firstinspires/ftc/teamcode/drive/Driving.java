@@ -3,13 +3,18 @@ package org.firstinspires.ftc.teamcode.drive;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
+import android.graphics.Point;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.MotionDetection;
 import org.firstinspires.ftc.teamcode.sensor.CHGyro;
+
+import java.util.Vector;
 
 public class Driving {
     DcMotor motors[] = new DcMotor[4];
@@ -42,12 +47,11 @@ public class Driving {
         telemetry.addData("right x joystick input", Double.toString(rx));
         telemetry.addData("rotating of the robot", Float.toString((float) chGyro.getAngle()));
 
-        float cAngle = (float) Math.atan(x / y);
-        cAngle = (float) Math.toDegrees(cAngle);
+        double cAngle = Math.atan(x/y);
 
-        telemetry.addData("controller angle", Float.toString(cAngle));
+        cAngle = Math.toDegrees(cAngle);
 
-        x = (float) Math.cos(Math.toRadians(cAngle - chGyro.getAngle())) * distance(x, y);
+        telemetry.addData("cAngle", Double.toString(cAngle));
 
         telemetry.addData("x", x);
         telemetry.addData("y", y);
@@ -61,6 +65,6 @@ public class Driving {
     }
 
     private static float distance(float x, float y) {
-        return (float) Math.sqrt(x + y);
+        return (float) Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 }
