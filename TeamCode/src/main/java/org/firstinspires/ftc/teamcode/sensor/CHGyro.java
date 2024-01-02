@@ -9,8 +9,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 public class CHGyro {
     public static BNO055IMU imu;
-    private static double lastAngle;
-
 
     public static void init(HardwareMap hardwareMap) {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -18,16 +16,10 @@ public class CHGyro {
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-        resetAngle();
-    }
-
-    public static double resetAngle() {
-        return (imu.getAngularOrientation(AxesReference.INTRINSIC , AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
     }
 
     public static double getAngle() {
-//        telemetry.addData("angle", imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - lastAngle );
-        return (imu.getAngularOrientation(AxesReference.INTRINSIC , AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - lastAngle);
+        return (imu.getAngularOrientation(AxesReference.INTRINSIC , AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
     }
 
 }
