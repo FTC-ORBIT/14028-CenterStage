@@ -49,6 +49,8 @@ public class Drive {
 
         telemetry.update();
 
+//        motorsRatio(motors);
+        
         for (DcMotor motor : motors) {
             if (motor.getPower() > 1) {
                 motors[0].setPower(motors[0].getPower() / motor.getPower());
@@ -71,5 +73,16 @@ public class Drive {
         double[] vector = {y,x};
 
         return vector;
+    }
+
+    private static void motorsRatio(DcMotor motors[]) {
+        for (DcMotor motor : motors) {
+            if (motor.getPower() > 1) {
+                motors[0].setPower(motors[0].getPower() / motor.getPower());
+                motors[1].setPower(motors[1].getPower() / motor.getPower());
+                motors[2].setPower(motors[2].getPower() / motor.getPower());
+                motors[3].setPower(motors[3].getPower() / motor.getPower());
+            }
+        }
     }
 }
