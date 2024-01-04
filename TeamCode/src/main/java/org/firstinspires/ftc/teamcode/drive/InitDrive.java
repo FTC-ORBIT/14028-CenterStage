@@ -9,21 +9,16 @@ import org.firstinspires.ftc.teamcode.sensor.CHGyro;
 public class InitDrive extends OpMode {
 
     Drive drive = new Drive();
-    CHGyro chGyro = new CHGyro();
 
     @Override
     public void init() {
         drive.init(hardwareMap);
-        chGyro.init(hardwareMap);
+        CHGyro.init(hardwareMap);
     }
 
     @Override
     public void loop() {
         drive.drive(gamepad1, telemetry);
     }
-
-
-
-
 
 }
