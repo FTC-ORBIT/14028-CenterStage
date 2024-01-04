@@ -45,7 +45,7 @@ public class Drive {
         telemetry.addData("right x joystick input", Double.toString(rx));
         telemetry.addData("rotating of the robot", Double.toString(Angle.wrapAngle0_360(rAngle)));
 
-        gamepadVector.rotate(Angle.wrapAngle0_360(rAngle));
+        gamepadVector.rotate(Math.toRadians(Angle.wrapAngle0_360(rAngle)));
 
         telemetry.addData("x", gamepadVector.x);
         telemetry.addData("y", gamepadVector.y);
