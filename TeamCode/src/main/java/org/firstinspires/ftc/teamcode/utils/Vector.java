@@ -54,14 +54,12 @@ public final class Vector {
 
     public double dotProduct(final Vector other) { return x * other.x + y * other.y;}
 
-    public Vector rotate(final double theta) {
+    public void rotate(final double theta) {
         final double sinTheta = Math.sin(theta);
         final double cosTheta = Math.cos(theta);
 
-        final double newx = x * cosTheta - y * sinTheta;
-        final double newy = x * sinTheta + y * cosTheta;
-
-        return new Vector(newx, newy);
+        x = x * cosTheta - y * sinTheta;
+        y = x * sinTheta + y * cosTheta;
     }
 
     public Vector rotate90(final boolean rotateCounterClockwise) {

@@ -14,6 +14,7 @@ public class CHGyro {
     public static double lastAngle;
 
     public static void init(HardwareMap hardwareMap) {
+        // Initialize the gyro in the controlhub.
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -23,14 +24,15 @@ public class CHGyro {
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-        resetGyro();
+//        resetGyro();
     }
 
-    public static void resetGyro() {
+    /*public static void resetGyro() {
         lastAngle = imu.getAngularOrientation(AxesReference.INTRINSIC , AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-    }
+    }*/
     public static double getAngle() {
-        return imu.getAngularOrientation(AxesReference.INTRINSIC , AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - lastAngle;
+        // get the angle of the robot using the gyro.
+        return imu.getAngularOrientation(AxesReference.INTRINSIC , AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     }
 
 }

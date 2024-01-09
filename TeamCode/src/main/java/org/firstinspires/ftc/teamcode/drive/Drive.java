@@ -17,42 +17,40 @@ import org.firstinspires.ftc.teamcode.utils.Angle;
 import org.firstinspires.ftc.teamcode.utils.Vector;
 
 public class Drive {
-    DcMotor motors[] = new DcMotor[4];
+    DcMotor[] motors = new DcMotor[4];
 
     public void init(HardwareMap hardwareMap) {
+        // map all the motors.
         motors[0] = hardwareMap.get(DcMotor.class, "lf");
         motors[1] = hardwareMap.get(DcMotor.class, "rf");
         motors[2] = hardwareMap.get(DcMotor.class, "lb");
         motors[3] = hardwareMap.get(DcMotor.class, "rb");
+
+        // reverse the direction of the motors if needed.
         motors[0].setDirection(DcMotorSimple.Direction.REVERSE);
         motors[1].setDirection(DcMotorSimple.Direction.REVERSE);
         motors[3].setDirection(DcMotorSimple.Direction.REVERSE);
+
+        // set the zero power behavior of the motors to brake.
         for (DcMotor motor : motors) {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
     }
 
-    public void drive(Gamepad gamepad1, Telemetry telemetry) {
-        double rx = gamepad1.right_stick_x;
+    public void drive(Gamepad gamepad, Telemetry telemetry) {
+        // get the right stick input.
+        double rx = gamepad.right_stick_x;
 
-        double rAngle = CHGyro.getAngle();
+        // get the angle of the robot and wrap it to 0-360.
+        double robotAngle = Angle.wrapAngle0_360(CHGyro.getAngle());
 
-        Vector gamepadVector = new Vector(gamepad1.left_stick_x, -gamepad1.left_stick_y);
+        // create a vector using the input from the left stick.
+        Vector gamepadVector = new Vector(gamepad.left_stick_x, -gamepad.left_stick_y);
 
-        //learning exactly how everything works
-        telemetry.addData("left y joystick input", Double.toString(gamepadVector.y));
-        telemetry.addData("left x joystick input", Double.toString(gamepadVector.x));
-        telemetry.addData("right x joystick input", Double.toString(rx));
-        telemetry.addData("rotating of the robot", Double.toString(Angle.wrapAngle0_360(rAngle)));
+        // rotate the vector by minus the angle of the robot(in radians).
+        gamepadVector.rotate(-Math.toRadians(robotAngle));
 
-        gamepadVector = gamepadVector.rotate(-Math.toRadians(Angle.wrapAngle0_360(rAngle)));
-
-
-        telemetry.addData("x", gamepadVector.x);
-        telemetry.addData("y", gamepadVector.y);
-
-        telemetry.update();
-
+        // set the power of the motors.
         motors[0].setPower(gamepadVector.y + gamepadVector.x + rx);
         motors[1].setPower(gamepadVector.y - gamepadVector.x - rx);
         motors[2].setPower(gamepadVector.y - gamepadVector.x + rx);

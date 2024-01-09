@@ -13,13 +13,16 @@ public class Init extends OpMode {
 
     @Override
     public void init() {
+        // Initialize drive init and input the hardware map.
         drive.init(hardwareMap);
+
+        // Initialize gyro and input the hardware map.
         CHGyro.init(hardwareMap);
     }
 
     @Override
     public void loop() {
+        // drive and robot using the controller gamepad1.
         drive.drive(gamepad1, telemetry);
     }
-
 }
