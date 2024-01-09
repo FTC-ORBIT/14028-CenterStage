@@ -45,23 +45,13 @@ public class Drive {
         telemetry.addData("right x joystick input", Double.toString(rx));
         telemetry.addData("rotating of the robot", Double.toString(Angle.wrapAngle0_360(rAngle)));
 
-        gamepadVector.rotate(Math.toRadians(Angle.wrapAngle0_360(rAngle)));
+        gamepadVector = gamepadVector.rotate(-Math.toRadians(Angle.wrapAngle0_360(rAngle)));
+
 
         telemetry.addData("x", gamepadVector.x);
         telemetry.addData("y", gamepadVector.y);
 
         telemetry.update();
-
-//        motorsRatio(motors);
-        
-        /*for (DcMotor motor : motors) {
-            if (motor.getPower() > 1) {
-                motors[0].setPower(motors[0].getPower() / motor.getPower());
-                motors[1].setPower(motors[1].getPower() / motor.getPower());
-                motors[2].setPower(motors[2].getPower() / motor.getPower());
-                motors[3].setPower(motors[3].getPower() / motor.getPower());
-            }
-        }*/
 
         motors[0].setPower(gamepadVector.y + gamepadVector.x + rx);
         motors[1].setPower(gamepadVector.y - gamepadVector.x - rx);

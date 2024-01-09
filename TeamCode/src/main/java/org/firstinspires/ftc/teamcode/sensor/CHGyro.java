@@ -30,7 +30,6 @@ public class CHGyro {
         lastAngle = imu.getAngularOrientation(AxesReference.INTRINSIC , AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     }
     public static double getAngle() {
-
         return imu.getAngularOrientation(AxesReference.INTRINSIC , AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle - lastAngle;
     }
 

@@ -1,12 +1,13 @@
-package org.firstinspires.ftc.teamcode.drive;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.drive.Drive;
 import org.firstinspires.ftc.teamcode.sensor.CHGyro;
 
 @TeleOp(name = "Movement Opmode")
-public class InitDrive extends OpMode {
+public class Init extends OpMode {
 
     Drive drive = new Drive();
 

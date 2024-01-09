@@ -5,7 +5,7 @@ public final class Angle {
     public static double wrapAngle0_360(final double theta) {
         return theta % 360;
     }
-    // convert 0-360 iRadians
+    // convert 0-360 in Radians
 
     public static double wrapAnglePlusMinus_180(final double theta) {
         final double wrapped = theta % 360; // Getting the angle smallest form (not exceeding a
