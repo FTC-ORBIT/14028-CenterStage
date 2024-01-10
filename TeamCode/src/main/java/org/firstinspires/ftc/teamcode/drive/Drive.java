@@ -27,7 +27,7 @@ public class Drive {
         motors[3] = hardwareMap.get(DcMotor.class, "rb");
 
         // reverse the direction of the motors if needed.
-        motors[0].setDirection(DcMotorSimple.Direction.REVERSE);
+        //motors[0].setDirection(DcMotorSimple.Direction.REVERSE);
         motors[1].setDirection(DcMotorSimple.Direction.REVERSE);
         motors[3].setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -47,8 +47,12 @@ public class Drive {
         // create a vector using the input from the left stick.
         Vector gamepadVector = new Vector(gamepad.left_stick_x, -gamepad.left_stick_y);
 
+        telemetry.addData("robot rotation", robotAngle);
+
+        telemetry.update();
+
         // rotate the vector by minus the angle of the robot(in radians).
-        gamepadVector.rotate(-Math.toRadians(robotAngle));
+        gamepadVector = gamepadVector.rotate(-Math.toRadians(robotAngle));
 
         // set the power of the motors.
         motors[0].setPower(gamepadVector.y + gamepadVector.x + rx);
