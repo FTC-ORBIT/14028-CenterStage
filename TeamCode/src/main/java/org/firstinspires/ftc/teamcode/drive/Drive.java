@@ -1,23 +1,19 @@
 package org.firstinspires.ftc.teamcode.drive;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
-import com.google.ftcresearch.tfod.tracking.ObjectTracker;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.sensor.CHGyro;
 import org.firstinspires.ftc.teamcode.utils.Angle;
 import org.firstinspires.ftc.teamcode.utils.Vector;
 
 public class Drive {
     DcMotor[] motors = new DcMotor[4];
+
+    public Vector gamepadVector;
 
     public void init(HardwareMap hardwareMap) {
         // map all the motors.
@@ -38,6 +34,7 @@ public class Drive {
     }
 
     public void drive(Gamepad gamepad, Telemetry telemetry) {
+
         // get the right stick input.
         double rx = gamepad.right_stick_x;
 
@@ -45,11 +42,15 @@ public class Drive {
         double robotAngle = Angle.wrapAngle0_360(CHGyro.getAngle());
 
         // create a vector using the input from the left stick.
-        Vector gamepadVector = new Vector(gamepad.left_stick_x, -gamepad.left_stick_y);
+        gamepadVector = new Vector(gamepad.left_stick_x, -gamepad.left_stick_y);
 
         telemetry.addData("robot rotation", robotAngle);
 
         telemetry.update();
+
+        DriveState.State drivingState = DriveState.State.normal;
+
+        gamepadVector = DriveState.setDrivingState(gamepadVector, drivingState);
 
         // rotate the vector by minus the angle of the robot(in radians).
         gamepadVector = gamepadVector.rotate(-Math.toRadians(robotAngle));
@@ -60,4 +61,6 @@ public class Drive {
         motors[2].setPower(gamepadVector.y - gamepadVector.x + rx);
         motors[3].setPower(gamepadVector.y + gamepadVector.x - rx);
     }
+
+
 }
