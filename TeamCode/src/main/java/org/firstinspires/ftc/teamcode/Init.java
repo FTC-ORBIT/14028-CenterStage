@@ -14,8 +14,6 @@ public class Init extends OpMode {
     Drive drive = new Drive();
     Elevator elevator = new Elevator();
 
-    boolean isPicking;
-
     @Override
     public void init() {
         // Initialize drive init and input the hardware map.
@@ -31,14 +29,8 @@ public class Init extends OpMode {
     public void loop() {
         // drive and robot using the controller gamepad1.
 
-        // isPicking = true;
-
-        if (isPicking) {
-            DriveState.setDrivingState(drive.gamepadVector, DriveState.State.slow);
-        } else {
-            DriveState.setDrivingState(drive.gamepadVector, DriveState.State.normal);
-        }
-
         drive.drive(gamepad1, telemetry);
+
+        elevator.changeHeight(gamepad1, telemetry);
     }
 }
