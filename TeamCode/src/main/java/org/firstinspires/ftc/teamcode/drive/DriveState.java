@@ -2,7 +2,8 @@ package org.firstinspires.ftc.teamcode.drive;
 
 import org.firstinspires.ftc.teamcode.utils.Vector;
 
-public class DriveState{
+public class DriveState {
+
     public enum State {
         normal,
         slow,
