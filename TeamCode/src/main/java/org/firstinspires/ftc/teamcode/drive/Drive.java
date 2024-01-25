@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Init;
+import org.firstinspires.ftc.teamcode.elevator.Elevator;
+import org.firstinspires.ftc.teamcode.elevator.ElevatorState;
 import org.firstinspires.ftc.teamcode.sensor.CHGyro;
 import org.firstinspires.ftc.teamcode.utils.Angle;
 import org.firstinspires.ftc.teamcode.utils.Vector;
@@ -48,9 +51,10 @@ public class Drive {
 
         telemetry.update();
 
-        DriveState.State drivingState = DriveState.State.normal;
+        DriveState drivingState = DriveState.normal;
 
-        gamepadVector = DriveState.setDrivingState(gamepadVector, drivingState);
+        if (Init.elevator.state != ElevatorState.down);
+        gamepadVector = setDrivingState(motors[0].getPower(), 0, 0, Init.elevator.currentHeight);
 
         // rotate the vector by minus the angle of the robot(in radians).
         gamepadVector = gamepadVector.rotate(-Math.toRadians(robotAngle));
@@ -62,5 +66,8 @@ public class Drive {
         motors[3].setPower(gamepadVector.y + gamepadVector.x - rx);
     }
 
+    public static Vector setDrivingState(double vMax, double vMin, double hMax, double currentHeight) {
+        return new Vector(currentHeight, (vMax - vMin) / (-hMax) * currentHeight + vMax);
+    }
 
 }

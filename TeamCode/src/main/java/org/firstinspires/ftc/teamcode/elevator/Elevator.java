@@ -6,14 +6,15 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.utils.Motors;
 
 public class Elevator {
 
     DcMotor[] motors;
-    double currentHeight;
+    public double currentHeight;
     double wantedHeight = 0;
 
-    ElevatorState state;
+    public ElevatorState state;
 
     public void init(HardwareMap hardwareMap) {
         motors = new DcMotor[2];
@@ -28,19 +29,21 @@ public class Elevator {
     }
 
     public void changeHeight(Gamepad gamepad, Telemetry telemetry) {
-        if (gamepad.a) {
+        if (gamepad.a && state != ElevatorState.up) {
             state = ElevatorState.up;
             wantedHeight = 0;
             setPower(motors, state);
-        } else if (gamepad.b) {
+        } else if (gamepad.b && state != ElevatorState.middle) {
             state = ElevatorState.middle;
             wantedHeight = 0;
             setPower(motors, state);
-        } else if (gamepad.y) {
+        } else if (gamepad.y && state != ElevatorState.middle) {
             state = ElevatorState.down;
             wantedHeight = 0;
             setPower(motors, state);
         }
+
+        telemetry.addData("current Height", currentHeight ); // need to transfer to cm
     }
 
     void setPower(DcMotor[] motors, ElevatorState state) {
@@ -62,19 +65,19 @@ public class Elevator {
 
                 }
                 break;*/
-                setFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2, false);
+                setPowerFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2, false);
 
             case middle:
-                setFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2, false);
+                setPowerFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2, false);
                 break;
 
             case down:
-                setFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2, true);
+                setPowerFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2, true);
                 break;
         }
     }
 
-    void setFunction(double currentHeight , double wantedHeight, double vMax, double vMin, double per1, double per2, boolean reversePower) {
+    void setPowerFunction(double currentHeight , double wantedHeight, double vMax, double vMin, double per1, double per2, boolean reversePower) {
 
         if (reversePower) {
             vMax = -vMax;
@@ -82,13 +85,13 @@ public class Elevator {
         }
 
         if (currentHeight <= per2 * wantedHeight) {
-            setPowerMotorList(motors, ((vMax - vMin) / per1 * wantedHeight) * currentHeight + vMin);
+            Motors.setPowerMotorList(motors, ((vMax - vMin) / (per1 * wantedHeight)) * currentHeight + vMin);
 
         } else if (currentHeight <= (1 - per2) * wantedHeight) {
-            setPowerMotorList(motors, vMax);
+            Motors.setPowerMotorList(motors, vMax);
 
         } else {
-            setPowerMotorList(motors, (per2 / wantedHeight) * (vMin - vMax) + 10 * vMax - 9 * vMin);
+            Motors .setPowerMotorList(motors, (per2 / wantedHeight) * (vMin - vMax) + 10 * vMax - 9 * vMin);
 
         }
     }
@@ -101,9 +104,5 @@ public class Elevator {
         return motor.getCurrentPosition();
     }
 
-    void setPowerMotorList(DcMotor[] motors, double power) {
-        for (DcMotor motor : motors) {
-            motor.setPower(power);
-        }
-    }
+
 }

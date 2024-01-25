@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.sensor.CHGyro;
 public class Init extends OpMode {
 
     Drive drive = new Drive();
-    Elevator elevator = new Elevator();
+    public static Elevator elevator = new Elevator();
 
     @Override
     public void init() {
