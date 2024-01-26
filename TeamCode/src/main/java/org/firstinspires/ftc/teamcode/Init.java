@@ -44,6 +44,8 @@ public class Init extends OpMode {
         // drive and robot using the controller gamepad1.
         drive.drive(gamepad1, telemetry);
 
+        telemetry.addData("current elevator location", elevator.currentHeight);
+
         if (gamepad1.a && gameState == GameState.pickup_closed) {
             box.open();
             pixel.open();

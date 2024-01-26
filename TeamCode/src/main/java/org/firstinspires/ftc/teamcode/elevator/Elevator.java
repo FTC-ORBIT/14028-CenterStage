@@ -24,7 +24,6 @@ public class Elevator {
         motors[0].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motors[1].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        wantedHeight = setWantedHeight(wantedHeight);
         state = ElevatorState.down;
     }
 
@@ -48,7 +47,7 @@ public class Elevator {
 
     public void up() {
         if (state != ElevatorState.up) {
-            wantedHeight = 0;
+            wantedHeight = setWantedHeight(0);
             setPower(motors, state);
             state = ElevatorState.up;
         }
@@ -56,7 +55,7 @@ public class Elevator {
 
     public void middle() {
         if (state != ElevatorState.middle) {
-            wantedHeight = 0;
+            wantedHeight = setWantedHeight(0);
             setPower(motors, state);
             state = ElevatorState.middle;
         }
@@ -64,7 +63,7 @@ public class Elevator {
 
     public void down() {
         if (state != ElevatorState.down) {
-            wantedHeight = 0;
+            wantedHeight = setWantedHeight(0);
             setPower(motors, state);
             state = ElevatorState.down;
         }
@@ -74,7 +73,7 @@ public class Elevator {
         double vMin = 0, vMax = 0;
         double per1 = 0.15, per2 = 0.1;
 
-        currentHeight = getCurrentHeight(motors[0]);
+        currentHeight = motors[0].getCurrentPosition();
 
         switch (state) {
             case up:
@@ -123,10 +122,4 @@ public class Elevator {
     double setWantedHeight(double height) {
         return height * 537.7;
     }
-
-    double getCurrentHeight(DcMotor motor) {
-        return motor.getCurrentPosition();
-    }
-
-
 }
