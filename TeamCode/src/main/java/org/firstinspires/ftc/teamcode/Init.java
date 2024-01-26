@@ -73,7 +73,7 @@ public class Init extends OpMode {
             box.close();
             elevator.down();
 
-            gameState = GameState.elevator_up;
+            gameState = GameState.pickup_closed;
         }
 
     }
