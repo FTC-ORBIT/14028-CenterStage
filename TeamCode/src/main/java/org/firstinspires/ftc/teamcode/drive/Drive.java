@@ -51,10 +51,9 @@ public class Drive {
 
         telemetry.update();
 
-        DriveState drivingState = DriveState.normal;
-
-        if (Init.elevator.state != ElevatorState.down);
-        gamepadVector = setDrivingState(motors[0].getPower(), 0, 0, Init.elevator.currentHeight);
+        if (Init.elevator.state != ElevatorState.down) {
+            gamepadVector = setElevatorBasedSpeed(gamepadVector.x, gamepadVector.y, 0, 0, Init.elevator.currentHeight);
+        }
 
         // rotate the vector by minus the angle of the robot(in radians).
         gamepadVector = gamepadVector.rotate(-Math.toRadians(robotAngle));
@@ -66,8 +65,9 @@ public class Drive {
         motors[3].setPower(gamepadVector.y + gamepadVector.x - rx);
     }
 
-    public static Vector setDrivingState(double vMax, double vMin, double hMax, double currentHeight) {
-        return new Vector(currentHeight, (vMax - vMin) / (-hMax) * currentHeight + vMax);
+    public static Vector setElevatorBasedSpeed(double vXMax, double vYMax,double vMin, double hMax, double currentHeight) {
+        return new Vector((vXMax - vMin) / (-hMax) * currentHeight + vXMax, (vYMax - vMin) / (-hMax) * currentHeight + vYMax);
+        //return new Vector(0,0);
     }
 
 }

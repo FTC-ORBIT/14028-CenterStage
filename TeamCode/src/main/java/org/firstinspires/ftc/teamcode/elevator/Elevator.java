@@ -28,22 +28,46 @@ public class Elevator {
         state = ElevatorState.down;
     }
 
-    public void changeHeight(Gamepad gamepad, Telemetry telemetry) {
+    /*public void changeHeight(Gamepad gamepad, Telemetry telemetry) {
         if (gamepad.a && state != ElevatorState.up) {
             state = ElevatorState.up;
             wantedHeight = 0;
             setPower(motors, state);
-        } else if (gamepad.b && state != ElevatorState.middle) {
+        }  else if (gamepad.b && state != ElevatorState.middle) {
             state = ElevatorState.middle;
             wantedHeight = 0;
             setPower(motors, state);
-        } else if (gamepad.y && state != ElevatorState.middle) {
+        }  else if (gamepad.y && state != ElevatorState.down) {
             state = ElevatorState.down;
             wantedHeight = 0;
             setPower(motors, state);
         }
 
         telemetry.addData("current Height", currentHeight ); // need to transfer to cm
+    }*/
+
+    public void up() {
+        if (state != ElevatorState.up) {
+            wantedHeight = 0;
+            setPower(motors, state);
+            state = ElevatorState.up;
+        }
+    }
+
+    public void middle() {
+        if (state != ElevatorState.middle) {
+            wantedHeight = 0;
+            setPower(motors, state);
+            state = ElevatorState.middle;
+        }
+    }
+
+    public void down() {
+        if (state != ElevatorState.down) {
+            wantedHeight = 0;
+            setPower(motors, state);
+            state = ElevatorState.down;
+        }
     }
 
     void setPower(DcMotor[] motors, ElevatorState state) {
@@ -54,7 +78,7 @@ public class Elevator {
 
         switch (state) {
             case up:
-                /*if (currentHeight <= 0.15 * wantedHeight) {
+                /* if (currentHeight <= 0.15 * wantedHeight) {
                     setPowerMotorList(motors, ((vMax - vMin) / 0.15 * wantedHeight) * currentHeight + vMin);
 
                 } else if (currentHeight <= 0.9 * wantedHeight) {
@@ -64,7 +88,7 @@ public class Elevator {
                     setPowerMotorList(motors, (10 / wantedHeight) * (vMin - vMax) + 10 * vMax - 9 * vMin);
 
                 }
-                break;*/
+                break; */
                 setPowerFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2, false);
 
             case middle:
