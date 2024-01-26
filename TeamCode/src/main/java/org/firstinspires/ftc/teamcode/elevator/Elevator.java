@@ -13,7 +13,6 @@ public class Elevator {
     DcMotor[] motors;
     public double currentHeight;
     double wantedHeight = 0;
-
     public ElevatorState state;
 
     public void init(HardwareMap hardwareMap) {
@@ -70,7 +69,7 @@ public class Elevator {
     }
 
     void setPower(DcMotor[] motors, ElevatorState state) {
-        double vMin = 0, vMax = 0;
+        double vMin = 0.15, vMax = 0.2;
         double per1 = 0.15, per2 = 0.1;
 
         currentHeight = motors[0].getCurrentPosition();
@@ -101,10 +100,13 @@ public class Elevator {
     }
 
     void setPowerFunction(double currentHeight , double wantedHeight, double vMax, double vMin, double per1, double per2, boolean reversePower) {
-
         if (reversePower) {
             vMax = -vMax;
             vMin = -vMin;
+        }
+
+        if (currentHeight >= wantedHeight) {
+            return;
         }
 
         if (currentHeight <= per2 * wantedHeight) {
@@ -113,9 +115,8 @@ public class Elevator {
         } else if (currentHeight <= (1 - per2) * wantedHeight) {
             Motors.setPowerMotorList(motors, vMax);
 
-        } else {
-            Motors .setPowerMotorList(motors, (per2 / wantedHeight) * (vMin - vMax) + 10 * vMax - 9 * vMin);
-
+        } else if (currentHeight >= (1 - per2) * wantedHeight){
+            Motors.setPowerMotorList(motors, (vMax -vMin) / (wantedHeight * (1 - per2) - wantedHeight) * currentHeight + vMin - (vMax - vMin) / (wantedHeight * (1-per2) - wantedHeight) * wantedHeight);
         }
     }
 
