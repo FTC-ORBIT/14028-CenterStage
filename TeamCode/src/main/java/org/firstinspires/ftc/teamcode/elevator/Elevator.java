@@ -110,11 +110,11 @@ public class Elevator {
         }
         else if (currentHeight <= per2 * wantedHeight) {
             Motors.setPowerMotorList(motors, ((vMax - vMin) / (per1 * wantedHeight)) * currentHeight + vMin);
-
-        } else if (currentHeight <= (1 - per2) * wantedHeight) {
+        }
+        else if (currentHeight <= (1 - per2) * wantedHeight) {
             Motors.setPowerMotorList(motors, vMax);
-
-        } else if (currentHeight >= (1 - per2) * wantedHeight){
+        }
+        else if (currentHeight >= (1 - per2) * wantedHeight){
             Motors.setPowerMotorList(motors, (vMax -vMin) / (wantedHeight * (1 - per2) - wantedHeight) * currentHeight + vMin - (vMax - vMin) / (wantedHeight * (1-per2) - wantedHeight) * wantedHeight);
         }
     }
