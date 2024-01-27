@@ -106,10 +106,9 @@ public class Elevator {
         }
 
         if (currentHeight >= wantedHeight) {
-            return;
+            Motors.setPowerMotorList(motors, 0);
         }
-
-        if (currentHeight <= per2 * wantedHeight) {
+        else if (currentHeight <= per2 * wantedHeight) {
             Motors.setPowerMotorList(motors, ((vMax - vMin) / (per1 * wantedHeight)) * currentHeight + vMin);
 
         } else if (currentHeight <= (1 - per2) * wantedHeight) {
