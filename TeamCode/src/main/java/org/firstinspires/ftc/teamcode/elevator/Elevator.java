@@ -120,6 +120,6 @@ public class Elevator {
     }
 
     double setWantedHeight(double height) {
-        return height * 537.7;
+        return height / (301.6 / 537.7);
     }
 }
