@@ -46,7 +46,7 @@ public class Init extends OpMode {
 
         telemetry.addData("current elevator location", elevator.currentHeight);
 
-        if (gamepad1.a && gameState == GameState.pickup_closed) {
+        /*if (gamepad1.a && gameState == GameState.pickup_closed) {
             box.open();
             pixel.open();
             elevator.down();
@@ -76,7 +76,17 @@ public class Init extends OpMode {
             elevator.down();
 
             gameState = GameState.pickup_closed;
-        }
+        }*/
 
+        if (gamepad1.x && gameState == GameState.pickup_closed) {
+            elevator.up();
+
+            gameState = GameState.elevator_up;
+
+        } else if (gamepad1.y && gameState == GameState.elevator_up) {
+            elevator.down();
+
+            gameState = GameState.pickup_closed;
+        }
     }
 }
