@@ -28,7 +28,7 @@ public class Init extends OpMode {
         CHGyro.init(hardwareMap);
 
         // Initialize elevator's input the hardware map.
-        elevator.init(hardwareMap);
+        elevator.init(hardwareMap, gamepad1);
 
         // Initialize box's input the hardware map.
         box.init(hardwareMap);
@@ -45,6 +45,8 @@ public class Init extends OpMode {
         drive.drive(gamepad1, telemetry);
 
         telemetry.addData("current elevator location", elevator.currentHeight);
+
+        elevator.
 
         /*if (gamepad1.a && gameState == GameState.pickup_closed) {
             box.open();
@@ -77,16 +79,5 @@ public class Init extends OpMode {
 
             gameState = GameState.pickup_closed;
         }*/
-
-        if (gamepad1.x && gameState == GameState.pickup_closed) {
-            elevator.up();
-
-            gameState = GameState.elevator_up;
-
-        } else if (gamepad1.y && gameState == GameState.elevator_up) {
-            elevator.down();
-
-            gameState = GameState.pickup_closed;
-        }
     }
 }

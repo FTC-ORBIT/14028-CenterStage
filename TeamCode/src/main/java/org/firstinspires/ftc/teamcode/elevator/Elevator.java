@@ -12,7 +12,6 @@ public class Elevator {
 
     DcMotor[] motors;
     public double currentHeight;
-    double wantedHeight = 0;
     public ElevatorState state;
 
     Gamepad gamepad;
@@ -48,43 +47,42 @@ public class Elevator {
         telemetry.addData("current Height", currentHeight ); // need to transfer to cm
     }*/
 
+    public void dynamic_controller() {
+        setPower(motors, state, setWantedHeight(0), -gamepad.left_stick_y, 0.2);
+    }
+
     public void up() {
         if (state != ElevatorState.up) {
-            wantedHeight = setWantedHeight(0);
-            setPower(motors, state);
+            setPower(motors, state, setWantedHeight(0), 0, 0);
             state = ElevatorState.up;
         }
     }
 
     public void middle() {
         if (state != ElevatorState.middle) {
-            wantedHeight = setWantedHeight(0);
-            setPower(motors, state);
+            setPower(motors, state, setWantedHeight(0), 0, 0);
             state = ElevatorState.middle;
         }
     }
 
     public void down() {
         if (state != ElevatorState.down) {
-            wantedHeight = setWantedHeight(0);
-            setPower(motors, state);
+            setPower(motors, state, setWantedHeight(0), 0, 0);
             state = ElevatorState.down;
         }
     }
 
-    void setPower(DcMotor[] motors, ElevatorState state) {
-        double vMin = -gamepad.left_stick_y, vMax = 0.2;
+    void setPower(DcMotor[] motors, ElevatorState state, double wantedHeight, double vMin, double vMax) {
         double per1 = 0.15, per2 = 0.1;
 
         currentHeight = motors[0].getCurrentPosition();
 
-        setPowerFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2);
+        setPowerFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2, false);
 
         /*switch (state) {
             case up:
                 /* if (currentHeight <= 0.15 * wantedHeight) {
                     setPowerMotorList(motors, ((vMax - vMin) / 0.15 * wantedHeight) * currentHeight + vMin);
-
                 } else if (currentHeight <= 0.9 * wantedHeight) {
                     setPowerMotorList(motors, vMax);
 
@@ -105,7 +103,14 @@ public class Elevator {
         }*/
     }
 
-    void setPowerFunction(double currentHeight , double wantedHeight, double vMax, double vMin, double per1, double per2) {
+    void setPowerFunction(double currentHeight , double wantedHeight, double vMax, double vMin, double per1, double per2, boolean reversed) {
+        if (reversed) {
+            vMin = -vMin;
+            vMax = -vMax;
+        }
+
+        vMin = Math.max(vMin, 0.1);
+
         if (currentHeight >= wantedHeight) {
             Motors.setPowerMotorList(motors, 0);
         }
