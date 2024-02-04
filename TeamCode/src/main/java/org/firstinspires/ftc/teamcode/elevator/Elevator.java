@@ -15,7 +15,11 @@ public class Elevator {
     double wantedHeight = 0;
     public ElevatorState state;
 
-    public void init(HardwareMap hardwareMap) {
+    Gamepad gamepad;
+
+    public void init(HardwareMap hardwareMap, Gamepad gamepad) {
+        this.gamepad = gamepad;
+
         motors = new DcMotor[2];
         motors[0] = hardwareMap.get(DcMotorEx.class, "ELf");
         motors[1] = hardwareMap.get(DcMotorEx.class, "ELf");
@@ -69,12 +73,14 @@ public class Elevator {
     }
 
     void setPower(DcMotor[] motors, ElevatorState state) {
-        double vMin = 0.15, vMax = 0.2;
+        double vMin = -gamepad.left_stick_y, vMax = 0.2;
         double per1 = 0.15, per2 = 0.1;
 
         currentHeight = motors[0].getCurrentPosition();
 
-        switch (state) {
+        setPowerFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2);
+
+        /*switch (state) {
             case up:
                 /* if (currentHeight <= 0.15 * wantedHeight) {
                     setPowerMotorList(motors, ((vMax - vMin) / 0.15 * wantedHeight) * currentHeight + vMin);
@@ -86,29 +92,24 @@ public class Elevator {
                     setPowerMotorList(motors, (10 / wantedHeight) * (vMin - vMax) + 10 * vMax - 9 * vMin);
 
                 }
-                break; */
-                setPowerFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2, false);
+                break;
+                setPowerFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2);
 
             case middle:
-                setPowerFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2, false);
+                setPowerFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2);
                 break;
 
             case down:
-                setPowerFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2, true);
+                setPowerFunction(currentHeight, wantedHeight, vMax, vMin, per1, per2);
                 break;
-        }
+        }*/
     }
 
-    void setPowerFunction(double currentHeight , double wantedHeight, double vMax, double vMin, double per1, double per2, boolean reversePower) {
-        if (reversePower) {
-            vMax = -vMax;
-            vMin = -vMin;
-        }
-
+    void setPowerFunction(double currentHeight , double wantedHeight, double vMax, double vMin, double per1, double per2) {
         if (currentHeight >= wantedHeight) {
             Motors.setPowerMotorList(motors, 0);
         }
-        else if (currentHeight <= per2 * wantedHeight) {
+        else if (currentHeight <= per1 * wantedHeight) {
             Motors.setPowerMotorList(motors, ((vMax - vMin) / (per1 * wantedHeight)) * currentHeight + vMin);
         }
         else if (currentHeight <= (1 - per2) * wantedHeight) {
