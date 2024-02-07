@@ -22,19 +22,19 @@ public class Init extends OpMode {
     @Override
     public void init() {
         // Initialize drive's and input the hardware map.
-        drive.init(hardwareMap);
+        //drive.init(hardwareMap);
 
         // Initialize gyro's input the hardware map.
-        CHGyro.init(hardwareMap);
+        //CHGyro.init(hardwareMap);
 
         // Initialize elevator's input the hardware map.
         elevator.init(hardwareMap, gamepad1);
 
         // Initialize box's input the hardware map.
-        box.init(hardwareMap);
+        //box.init(hardwareMap);
 
         // Initialize pixel's input the hardware map.
-        pixel.init(hardwareMap);
+        //pixel.init(hardwareMap);
 
         gameState = GameState.pickup_closed;
     }
@@ -42,11 +42,12 @@ public class Init extends OpMode {
     @Override
     public void loop() {
         // drive and robot using the controller gamepad1.
-        drive.drive(gamepad1, telemetry);
 
-        telemetry.addData("current elevator location", elevator.currentHeight);
+        //drive.drive(gamepad1, telemetry);
 
-        elevator.
+        telemetry.addData("Current elevator height in ticks", elevator.currentHeight);
+
+        elevator.dynamic_controller();
 
         /*if (gamepad1.a && gameState == GameState.pickup_closed) {
             box.open();
