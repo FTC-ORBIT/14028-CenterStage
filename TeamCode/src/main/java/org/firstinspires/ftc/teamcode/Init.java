@@ -36,6 +36,9 @@ public class Init extends OpMode {
         // Initialize pixel's input the hardware map.
         //pixel.init(hardwareMap);
 
+        telemetry.addData("start height", elevator.startHeight);
+        telemetry.update();
+
         gameState = GameState.pickup_closed;
     }
 
@@ -47,7 +50,13 @@ public class Init extends OpMode {
 
         telemetry.addData("Current elevator height in ticks", elevator.currentHeight);
 
-        elevator.dynamic_controller();
+        if (gamepad1.a) {
+            elevator.up();
+        } else if (gamepad1.b) {
+            elevator.down();
+        }
+
+        telemetry.update();
 
         /*if (gamepad1.a && gameState == GameState.pickup_closed) {
             box.open();
