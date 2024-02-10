@@ -46,48 +46,8 @@ public class Init extends OpMode {
     public void loop() {
         // drive and robot using the controller gamepad1.
 
-        //drive.drive(gamepad1, telemetry);
+        drive.drive(gamepad1, telemetry);
 
         telemetry.addData("Current elevator height in ticks", elevator.currentHeight);
-
-        if (gamepad1.a) {
-            elevator.up();
-        } else if (gamepad1.b) {
-            elevator.down();
-        }
-
-        telemetry.update();
-
-        /*if (gamepad1.a && gameState == GameState.pickup_closed) {
-            box.open();
-            pixel.open();
-            elevator.down();
-
-            gameState = GameState.pickup_opened;
-        } else if (gamepad1.a && gameState == GameState.pickup_opened) {
-            pixel.close();
-            box.close();
-            elevator.down();
-
-            gameState = GameState.pickup_closed;
-        } else if (gamepad1.x && gameState == GameState.pickup_closed) {
-            elevator.up();
-            box.drop();
-
-            gameState = GameState.elevator_up;
-
-            while (true) {
-                if (gamepad1.x) {
-                    pixel.open();
-                    return;
-                }
-            }
-        } else if (gamepad1.y && gameState == GameState.elevator_up) {
-            pixel.close();
-            box.close();
-            elevator.down();
-
-            gameState = GameState.pickup_closed;
-        }*/
     }
 }

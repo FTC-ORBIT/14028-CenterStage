@@ -51,9 +51,9 @@ public class Drive {
 
         telemetry.update();
 
-        if (Init.elevator.state != ElevatorState.down) {
+        /*if (Init.elevator.state != ElevatorState.down) {
             gamepadVector = setElevatorBasedSpeed(gamepadVector.x, gamepadVector.y, 0, 0, Init.elevator.currentHeight);
-        }
+        }*/
 
         // rotate the vector by minus the angle of the robot(in radians).
         gamepadVector = gamepadVector.rotate(-Math.toRadians(robotAngle));
