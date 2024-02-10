@@ -8,4 +8,8 @@ public class Motors {
             motor.setPower(power);
         }
     }
+
+    /*public static int setWantedHeight(int height) {
+        return (int) (height * (96 / 537.7));
+    }*/
 }

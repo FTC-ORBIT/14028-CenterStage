@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.box_and_pixel.Box;
 import org.firstinspires.ftc.teamcode.box_and_pixel.Pixel;
 import org.firstinspires.ftc.teamcode.drive.Drive;
 import org.firstinspires.ftc.teamcode.elevator.Elevator;
-import org.firstinspires.ftc.teamcode.sensor.CHGyro;
+import org.firstinspires.ftc.teamcode.elevator.ElevatorState;
 
 @TeleOp(name = "Movement Opmode")
 public class Init extends OpMode {
@@ -49,5 +49,16 @@ public class Init extends OpMode {
         drive.drive(gamepad1, telemetry);
 
         telemetry.addData("Current elevator height in ticks", elevator.currentHeight);
+
+        if (gamepad1.a && elevator.state == ElevatorState.down) {
+            elevator.state = ElevatorState.up;
+            //elevator.currentHeight = elevator.wantedHeight - elevator.currentHeight;
+        } else if (gamepad1.a && elevator.state == ElevatorState.up) {
+            elevator.state = ElevatorState.down;
+            //elevator.currentHeight = elevator.wantedHeight - elevator.currentHeight;
+        }
+
+        elevator.up();
+        elevator.down();
     }
 }
