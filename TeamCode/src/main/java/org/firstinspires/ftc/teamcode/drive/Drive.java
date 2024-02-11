@@ -14,11 +14,11 @@ import org.firstinspires.ftc.teamcode.utils.Angle;
 import org.firstinspires.ftc.teamcode.utils.Vector;
 
 public class Drive {
-    DcMotor[] motors = new DcMotor[4];
+    static DcMotor[] motors = new DcMotor[4];
 
-    public Vector gamepadVector;
+    public static Vector gamepadVector;
 
-    public void init(HardwareMap hardwareMap) {
+    public static void init(HardwareMap hardwareMap) {
         // map all the motors.
         motors[0] = hardwareMap.get(DcMotor.class, "lf");
         motors[1] = hardwareMap.get(DcMotor.class, "rf");
@@ -36,7 +36,7 @@ public class Drive {
         }
     }
 
-    public void drive(Gamepad gamepad, Telemetry telemetry) {
+    public static void drive(Gamepad gamepad, Telemetry telemetry) {
 
         // get the right stick input.
         double rx = gamepad.right_stick_x;

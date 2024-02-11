@@ -1,11 +1,6 @@
 package org.firstinspires.ftc.teamcode.elevator;
 
-import static org.firstinspires.ftc.teamcode.utils.Motors.setPowerMotorList;
-
-import android.widget.Button;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -13,15 +8,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.utils.Motors;
 
 public class Elevator {
-    DcMotor[] motors;
-    public int currentHeight;
-    public int startHeight;
-    public int wantedHeight;
-    public ElevatorState state;
-    Gamepad gamepad;
+    static DcMotor[] motors;
+    public static int currentHeight;
+    public static int startHeight;
+    public static int wantedHeight;
+    public static ElevatorState state;
+    static Gamepad gamepad;
 
-    public void init(HardwareMap hardwareMap, Gamepad gamepad) {
-        this.gamepad = gamepad;
+    static double per1 = 0.15;
+    static double per2 = 0.9;
+
+    public static void init(HardwareMap hardwareMap, Gamepad gamepad) {
+        Elevator.gamepad = gamepad;
 
         motors = new DcMotor[1];
         motors[0] = hardwareMap.get(DcMotor.class, "el");
@@ -32,16 +30,26 @@ public class Elevator {
         motors[0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        wantedHeight = 2000;
-
         state = ElevatorState.down;
+
+        wantedHeight = 2000;
     }
 
-    public void up() {
-        if (state != ElevatorState.up) return;
+    public static void controllerBased() {
+        Motors.setPowerMotorList(motors, gamepad.right_stick_y);
+    }
 
-        double per1 = 0.15f, per2 = 0.9;
+    public static void changeState() {
+        if (state == ElevatorState.up) {
+            up();
+        } else if (state == ElevatorState.down) {
+            down();
+        }
+    }
+
+    public static void up() {
         double vMin = 0.1, vMax = 0.3;
+        currentHeight = motors[0].getCurrentPosition();
 
         if (currentHeight <= per1 * wantedHeight) {
             Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
@@ -52,11 +60,9 @@ public class Elevator {
         }
     }
 
-    public void down() {
-        if (state != ElevatorState.down) return;
-
-        double per1 = 0.15, per2 = 0.9;
+    public static void down() {
         double vMin = -0.1, vMax = -0.3;
+        currentHeight = wantedHeight - motors[0].getCurrentPosition();
 
         if (currentHeight <= per1 * wantedHeight) {
             Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
@@ -66,4 +72,5 @@ public class Elevator {
             Motors.setPowerMotorList(motors, (vMax - vMin)/((wantedHeight * per2) - wantedHeight) * currentHeight + vMin - (vMax - vMin)/((wantedHeight * per2) - wantedHeight) * wantedHeight);
         }
     }
+
 }

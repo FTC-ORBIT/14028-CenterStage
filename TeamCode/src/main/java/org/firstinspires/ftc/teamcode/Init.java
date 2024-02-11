@@ -9,12 +9,9 @@ import org.firstinspires.ftc.teamcode.drive.Drive;
 import org.firstinspires.ftc.teamcode.elevator.Elevator;
 import org.firstinspires.ftc.teamcode.elevator.ElevatorState;
 
-@TeleOp(name = "Movement Opmode")
+@TeleOp(name = "TeleOp1428")
 public class Init extends OpMode {
 
-    public static Drive drive = new Drive();
-    public static Elevator elevator = new Elevator();
-    public static Box box = new Box();
     public static Pixel pixel = new Pixel();
 
     public static GameState gameState;
@@ -22,43 +19,41 @@ public class Init extends OpMode {
     @Override
     public void init() {
         // Initialize drive's and input the hardware map.
-        //drive.init(hardwareMap);
+        //Drive.init(hardwareMap);
 
         // Initialize gyro's input the hardware map.
         //CHGyro.init(hardwareMap);
 
         // Initialize elevator's input the hardware map.
-        elevator.init(hardwareMap, gamepad1);
+        Elevator.init(hardwareMap, gamepad1);
 
         // Initialize box's input the hardware map.
-        //box.init(hardwareMap);
+        //Box.init(hardwareMap);
 
         // Initialize pixel's input the hardware map.
         //pixel.init(hardwareMap);
-
-        telemetry.addData("start height", elevator.startHeight);
-        telemetry.update();
-
-        gameState = GameState.pickup_closed;
     }
 
     @Override
     public void loop() {
         // drive and robot using the controller gamepad1.
 
-        drive.drive(gamepad1, telemetry);
+        //Drive.drive(gamepad1, telemetry);
 
-        telemetry.addData("Current elevator height in ticks", elevator.currentHeight);
+        telemetry.addData("Current elevator height in ticks", Elevator.currentHeight);
 
-        if (gamepad1.a && elevator.state == ElevatorState.down) {
-            elevator.state = ElevatorState.up;
-            //elevator.currentHeight = elevator.wantedHeight - elevator.currentHeight;
-        } else if (gamepad1.a && elevator.state == ElevatorState.up) {
-            elevator.state = ElevatorState.down;
-            //elevator.currentHeight = elevator.wantedHeight - elevator.currentHeight;
+        if (gamepad1.a && Elevator.state == ElevatorState.down) {
+            Elevator.state = ElevatorState.up;
+        } else if (gamepad1.a && Elevator.state == ElevatorState.up) {
+            Elevator.state = ElevatorState.down;
         }
 
-        elevator.up();
-        elevator.down();
+        Elevator.controllerBased();
+        //Elevator.changeState();
+
+        //if (Elevator.currentHeight == Box.changePositionHeight) Box.controlState();
+
+        telemetry.addData("Current elevator height in ticks", Elevator.currentHeight);
+        telemetry.update();
     }
 }
