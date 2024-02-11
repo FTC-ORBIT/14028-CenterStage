@@ -49,7 +49,7 @@ public class Elevator {
 
     public static void up() {
         double vMin = 0.1, vMax = 0.3;
-        currentHeight = motors[0].getCurrentPosition();
+        currentHeight = Math.abs(motors[0].getCurrentPosition());
 
         if (currentHeight <= per1 * wantedHeight) {
             Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
@@ -62,7 +62,7 @@ public class Elevator {
 
     public static void down() {
         double vMin = -0.1, vMax = -0.3;
-        currentHeight = wantedHeight - motors[0].getCurrentPosition();
+        currentHeight = wantedHeight - Math.abs(motors[0].getCurrentPosition());
 
         if (currentHeight <= per1 * wantedHeight) {
             Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
