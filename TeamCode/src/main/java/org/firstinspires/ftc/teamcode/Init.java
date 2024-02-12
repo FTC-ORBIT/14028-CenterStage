@@ -49,7 +49,7 @@ public class Init extends OpMode {
         }
 
         Elevator.controllerBased();
-        //Elevator.changeState();
+        //Elevator.heightState();
 
         //if (Elevator.currentHeight == Box.changePositionHeight) Box.controlState();
 

@@ -39,7 +39,7 @@ public class Elevator {
         Motors.setPowerMotorList(motors, gamepad.right_stick_y);
     }
 
-    public static void changeState() {
+    public static void heightState() {
         if (state == ElevatorState.up) {
             up();
         } else if (state == ElevatorState.down) {
@@ -64,7 +64,9 @@ public class Elevator {
         double vMin = -0.1, vMax = -0.3;
         currentHeight = wantedHeight - Math.abs(motors[0].getCurrentPosition());
 
-        if (currentHeight <= per1 * wantedHeight) {
+        if (currentHeight >= wantedHeight) {
+            Motors.setPowerMotorList(motors, 0);
+        } else if (currentHeight <= per1 * wantedHeight) {
             Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
         } else if (currentHeight <= per2 * wantedHeight) {
             Motors.setPowerMotorList(motors, vMax);
