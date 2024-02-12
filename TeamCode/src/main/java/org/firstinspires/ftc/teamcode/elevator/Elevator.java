@@ -18,7 +18,7 @@ public class Elevator {
     static double per1 = 0.15;
     static double per2 = 0.9;
 
-    public static void init(HardwareMap hardwareMap, Gamepad gamepad) {
+    public static void init(HardwareMap hardwareMap) {
         Elevator.gamepad = gamepad;
 
         motors = new DcMotor[1];
@@ -39,11 +39,11 @@ public class Elevator {
         Motors.setPowerMotorList(motors, gamepad.right_stick_y);
     }
 
-    public static void heightState() {
+    public static void changeState() {
         if (state == ElevatorState.up) {
-            up();
-        } else if (state == ElevatorState.down) {
             down();
+        } else if (state == ElevatorState.down) {
+            up();
         }
     }
 
@@ -51,13 +51,15 @@ public class Elevator {
         double vMin = 0.1, vMax = 0.3;
         currentHeight = Math.abs(motors[0].getCurrentPosition());
 
+        state = ElevatorState.up;
+
         if (currentHeight >= wantedHeight) {
             Motors.setPowerMotorList(motors, 0);
         } else if (currentHeight <= per1 * wantedHeight) {
             Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
         } else if (currentHeight <= per2 * wantedHeight) {
             Motors.setPowerMotorList(motors, vMax);
-        } else if (currentHeight > per2 * wantedHeight && currentHeight < wantedHeight) {
+        } else if (currentHeight > per2 * wantedHeight) {
             Motors.setPowerMotorList(motors, (vMax - vMin)/((wantedHeight * per2) - wantedHeight) * currentHeight + vMin - (vMax - vMin)/((wantedHeight * per2) - wantedHeight) * wantedHeight);
         }
     }
@@ -66,15 +68,29 @@ public class Elevator {
         double vMin = -0.1, vMax = -0.3;
         currentHeight = wantedHeight - Math.abs(motors[0].getCurrentPosition());
 
+        state = ElevatorState.down;
+
         if (currentHeight >= wantedHeight) {
             Motors.setPowerMotorList(motors, 0);
         } else if (currentHeight <= per1 * wantedHeight) {
             Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
         } else if (currentHeight <= per2 * wantedHeight) {
             Motors.setPowerMotorList(motors, vMax);
-        } else if (currentHeight > per2 * wantedHeight && currentHeight < wantedHeight) {
+        } else if (currentHeight > per2 * wantedHeight) {
             Motors.setPowerMotorList(motors, (vMax - vMin)/((wantedHeight * per2) - wantedHeight) * currentHeight + vMin - (vMax - vMin)/((wantedHeight * per2) - wantedHeight) * wantedHeight);
         }
     }
 
+    public static boolean atUp() {
+        if (currentHeight >= wantedHeight && Elevator.state == ElevatorState.up) {
+            return true;
+        }
+        return false;
+    }
+    public static boolean atDown() {
+        if (currentHeight >= wantedHeight && Elevator.state == ElevatorState.down) {
+            return true;
+        }
+        return false;
+    }
 }

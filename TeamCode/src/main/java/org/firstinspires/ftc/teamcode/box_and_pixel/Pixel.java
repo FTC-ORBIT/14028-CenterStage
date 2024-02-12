@@ -7,7 +7,7 @@ public class Pixel {
 
     static Servo servo;
 
-    static boolean isOpen;
+    public static boolean isOpen;
 
     static double openPosition = 0;
     static double closedPosition = 0;
@@ -15,19 +15,16 @@ public class Pixel {
     public static void init(HardwareMap hardwareMap) {
         servo = hardwareMap.get(Servo.class, "pixel");
         servo.setPosition(closedPosition);
+        isOpen = false;
     }
 
     public static void open() {
-        if (!isOpen) {
-            servo.setPosition(openPosition);
-            isOpen = true;
-        }
+        servo.setPosition(openPosition);
+        isOpen = true;
     }
 
     public static void close() {
-        if (isOpen) {
-            servo.setPosition(closedPosition);
-            isOpen = false;
-        }
+        servo.setPosition(closedPosition);
+        isOpen = false;
     }
 }

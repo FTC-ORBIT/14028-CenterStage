@@ -18,6 +18,7 @@ public class Box {
 
         servo.setDirection(Servo.Direction.FORWARD); // need to check if the direction is correct.
         servo.setPosition(closedPosition);
+        isOpen = false;
     }
 
     /*public void changeMode(Telemetry telemetry) {
@@ -28,11 +29,11 @@ public class Box {
         }
     }*/
 
-    public static void controlState() {
+    public static void changeState() {
         if (isOpen) {
-            open();
-        } else {
             close();
+        } else {
+            open();
         }
     }
 
