@@ -14,10 +14,7 @@ public class Elevator {
     public static int wantedHeight;
     public static ElevatorState state;
     static Gamepad gamepad;
-
     static ElapsedTime downTimer = new ElapsedTime();
-    static boolean isTimerOn = false;
-
     static double per1 = 0.15;
     static double per2 = 0.9;
 
@@ -34,15 +31,13 @@ public class Elevator {
         motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         state = ElevatorState.down;
-
-        wantedHeight = 1000;
     }
 
     public static void controllerBased() {
         Motors.setPowerMotorList(motors, gamepad.right_stick_y);
     }
 
-    public static void changeState() {
+    public static void stateBased() {
         switch (state) {
             case up:
                 up();
@@ -52,17 +47,18 @@ public class Elevator {
     }
 
     public static void up() {
-        double vMin = 0.1, vMax = 0.3;
-        currentHeight = Math.abs(motors[0].getCurrentPosition());
-
-        state = ElevatorState.up;
+        double vMin = 0.1, vMax = 0.4;
+        currentHeight = getCurrentHeight();
 
         if (currentHeight >= wantedHeight) {
             Motors.setPowerMotorList(motors, 0);
+
         } else if (currentHeight <= per1 * wantedHeight) {
             Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
-        } else if (currentHeight <= per2 * wantedHeight && currentHeight <= wantedHeight * per1) {
+
+        } else if (currentHeight <= per2 * wantedHeight && currentHeight >= wantedHeight * per1) {
             Motors.setPowerMotorList(motors, vMax);
+
         } else {
             Motors.setPowerMotorList(motors, (vMax - vMin)/((wantedHeight * per2) - wantedHeight) * currentHeight + vMin - (vMax - vMin)/((wantedHeight * per2) - wantedHeight) * wantedHeight);
         }
@@ -70,21 +66,19 @@ public class Elevator {
 
     public static void down() {
         double vMin = -0.1, vMax = -0.3;
-        currentHeight = Math.abs(motors[0].getCurrentPosition());
+        double time = 0.1, timerPower = 0.1;
+        currentHeight = getCurrentHeight();
 
-        state = ElevatorState.down;
-
-        if (currentHeight <= wantedHeight && currentHeight > 0) {
+        if (currentHeight <= wantedHeight) {
             // go the rest of the way there with timer
-            if (currentHeight == wantedHeight && !isTimerOn) {
+            if (currentHeight == wantedHeight) {
                 downTimer.reset();
-                isTimerOn = true;
-                Motors.setPowerMotorList(motors, 0);
+                Motors.setPowerMotorList(motors, timerPower);
             }
 
-            if (downTimer.seconds() == 0.1) {
+            if (downTimer.seconds() == time) {
                 Motors.setPowerMotorList(motors, 0);
-                isTimerOn = false;
+                state = ElevatorState.downed;
             }
 
         } else {
@@ -99,9 +93,13 @@ public class Elevator {
         return false;
     }
     public static boolean atDown() {
-        if (currentHeight >= wantedHeight && Elevator.state == ElevatorState.down) {
+        if (state == ElevatorState.downed) {
             return true;
         }
         return false;
+    }
+
+    public static int getCurrentHeight() {
+        return currentHeight = (Math.abs(motors[0].getCurrentPosition()) + Math.abs(motors[1].getCurrentPosition()))/2;
     }
 }

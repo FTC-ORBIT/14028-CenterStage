@@ -43,15 +43,16 @@ public class Init extends OpMode {
 
         telemetry.addData("Current elevator height in ticks", Elevator.currentHeight);
 
-        if (gamepad1.a && Elevator.state != ElevatorState.up) {
+        if (gamepad1.dpad_up /*&& Elevator.state != ElevatorState.up*/) {
             Elevator.state = ElevatorState.up;
-        } else if (gamepad1.a && Elevator.state != ElevatorState.down) {
+            Elevator.wantedHeight = 1000;
+        } else if (gamepad1.dpad_down /*&& Elevator.state != ElevatorState.down*/) {
             Elevator.state = ElevatorState.down;
-            //Pixel.close();
+            Elevator.wantedHeight = 100;
         }
 
         //Elevator.controllerBased();
-        Elevator.changeState();
+        Elevator.stateBased();
 
         telemetry.addData("Current elevator height in ticks", Elevator.currentHeight);
         telemetry.update();

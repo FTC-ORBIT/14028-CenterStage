@@ -4,5 +4,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public enum ElevatorState {
     up,
-    down
+    down,
+    downed
 }
