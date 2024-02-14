@@ -23,7 +23,7 @@ public class Init extends OpMode {
         //CHGyro.init(hardwareMap);
 
         // Initialize elevator's hardware map.
-        Elevator.init(hardwareMap);
+        Elevator.init(hardwareMap, gamepad1);
 
         // Initialize box's hardware map.
         //Box.init(hardwareMap);
@@ -43,13 +43,21 @@ public class Init extends OpMode {
 
         telemetry.addData("Current elevator height in ticks", Elevator.currentHeight);
 
-        if (gamepad1.a && Elevator.state == ElevatorState.down) {
+        if (gamepad1.a && Elevator.state != ElevatorState.up) {
             Elevator.state = ElevatorState.up;
-        } else if (gamepad1.a && Elevator.state == ElevatorState.up) {
+        } else if (gamepad1.a && Elevator.state != ElevatorState.down) {
             Elevator.state = ElevatorState.down;
             //Pixel.close();
         }
-        /*if (gamepad1.x && Elevator.atDown() && !Box.isOpen && !Pixel.isOpen) {
+
+        //Elevator.controllerBased();
+        Elevator.changeState();
+
+        telemetry.addData("Current elevator height in ticks", Elevator.currentHeight);
+        telemetry.update();
+    }
+
+    /*if (gamepad1.x && Elevator.atDown() && !Box.isOpen && !Pixel.isOpen) {
             Box.changeState();
             Pixel.open();
         } else if (gamepad1.x && Elevator.atDown() && Box.isOpen && Pixel.isOpen) {
@@ -62,11 +70,4 @@ public class Init extends OpMode {
         /*if (gamepad1.y) {
             Airplane.launch();
         }*/
-
-        Elevator.controllerBased();
-        //Elevator.changeState();
-
-        telemetry.addData("Current elevator height in ticks", Elevator.currentHeight);
-        telemetry.update();
-    }
 }
