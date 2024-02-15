@@ -79,6 +79,12 @@ public class Elevator {
         double time = 0.1, timerPower = 0.1;
         currentHeight = getCurrentHeight();
 
+        // if the elevator is above the wanted height - insert the power based on height.
+        if (currentHeight > wantedHeight) {
+            Motors.setPowerMotorList(motors, (vMax - vMin) / (currentHeight - wantedHeight) * currentHeight + vMin);
+            return;
+        }
+
         // go the rest of the way there with timer.
         if (currentHeight == wantedHeight) {
             downTimer.reset();
@@ -89,11 +95,6 @@ public class Elevator {
         if (downTimer.seconds() == time) {
             Motors.setPowerMotorList(motors, 0);
             state = ElevatorState.downed;
-        }
-
-        // if the elevator is above the wanted height - insert the power based on height.
-        if (currentHeight > wantedHeight) {
-            Motors.setPowerMotorList(motors, (vMax - vMin) / (currentHeight - wantedHeight) * currentHeight + vMin);
         }
     }
 
