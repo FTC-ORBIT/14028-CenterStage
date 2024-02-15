@@ -3,10 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.airplane.Airplane;
-import org.firstinspires.ftc.teamcode.box_and_pixel.Box;
-import org.firstinspires.ftc.teamcode.box_and_pixel.Pixel;
-import org.firstinspires.ftc.teamcode.drive.Drive;
 import org.firstinspires.ftc.teamcode.elevator.Elevator;
 import org.firstinspires.ftc.teamcode.elevator.ElevatorState;
 
@@ -43,22 +39,30 @@ public class Init extends OpMode {
 
         telemetry.addData("Current elevator height in ticks", Elevator.currentHeight);
 
-        if (gamepad1.dpad_up /*&& Elevator.state != ElevatorState.up*/) {
-            Elevator.state = ElevatorState.up;
+
+        // check if the dpad_up button is clicked - set the state of the elevator to up.
+        if (gamepad1.dpad_up) {
+            Elevator.state = ElevatorState.uping;
             Elevator.wantedHeight = 1000;
-        } else if (gamepad1.dpad_down /*&& Elevator.state != ElevatorState.down*/) {
-            Elevator.state = ElevatorState.down;
+        }
+        // check if the dpad_down button is clicked - set the state of the elevator to down.
+        else if (gamepad1.dpad_down) {
+            Elevator.state = ElevatorState.downing;
             Elevator.wantedHeight = 100;
         }
 
         //Elevator.controllerBased();
+        // insert the power to the motors based on the state of the elevator
         Elevator.stateBased();
 
         telemetry.addData("Current elevator height in ticks", Elevator.currentHeight);
         telemetry.update();
     }
+}
 
-    /*if (gamepad1.x && Elevator.atDown() && !Box.isOpen && !Pixel.isOpen) {
+
+
+ /*if (gamepad1.x && Elevator.atDown() && !Box.isOpen && !Pixel.isOpen) {
             Box.changeState();
             Pixel.open();
         } else if (gamepad1.x && Elevator.atDown() && Box.isOpen && Pixel.isOpen) {
@@ -71,4 +75,3 @@ public class Init extends OpMode {
         /*if (gamepad1.y) {
             Airplane.launch();
         }*/
-}

@@ -30,7 +30,7 @@ public class Elevator {
         motors[0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        state = ElevatorState.down;
+        state = ElevatorState.downing;
     }
 
     public static void controllerBased() {
@@ -38,10 +38,13 @@ public class Elevator {
     }
 
     public static void stateBased() {
+        // check if the state is up - put the power to go up
         switch (state) {
-            case up:
+            case uping:
                 up();
-            case down:
+            // check if the state is downing - put the power to go downing
+            // if the state is downed then this wont be executed because the elevator is at the bottom.
+            case downing:
                 down();
         }
     }
@@ -50,10 +53,12 @@ public class Elevator {
         double vMin = 0.1, vMax = 0.4;
         currentHeight = getCurrentHeight();
 
+        // if the elevator is at or above wanted height
         if (currentHeight >= wantedHeight) {
             Motors.setPowerMotorList(motors, 0);
-
-        } else if (currentHeight <= per1 * wantedHeight) {
+        }
+        // below some precent have a different power.
+        else if (currentHeight <= per1 * wantedHeight) {
             Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
 
         } else if (currentHeight <= per2 * wantedHeight && currentHeight >= wantedHeight * per1) {
@@ -65,29 +70,31 @@ public class Elevator {
     }
 
     public static void down() {
+        // setting min and max power, and timer time and power.
         double vMin = -0.1, vMax = -0.3;
         double time = 0.1, timerPower = 0.1;
         currentHeight = getCurrentHeight();
 
-        if (currentHeight <= wantedHeight) {
-            // go the rest of the way there with timer
-            if (currentHeight == wantedHeight) {
-                downTimer.reset();
-                Motors.setPowerMotorList(motors, timerPower);
-            }
+        // go the rest of the way there with timer.
+        if (currentHeight == wantedHeight) {
+            downTimer.reset();
+            Motors.setPowerMotorList(motors, timerPower);
+        }
 
-            if (downTimer.seconds() == time) {
-                Motors.setPowerMotorList(motors, 0);
-                state = ElevatorState.downed;
-            }
+        // if the timer is done then the elevator is at the bottom and the power of the motors should be 0.
+        if (downTimer.seconds() == time) {
+            Motors.setPowerMotorList(motors, 0);
+            state = ElevatorState.downed;
+        }
 
-        } else {
-            Motors.setPowerMotorList(motors, (vMax - vMin)/(currentHeight-wantedHeight) * currentHeight + vMin);
+        // if the elevator is above the wanted height - insert the power based on height.
+        if (currentHeight > wantedHeight) {
+            Motors.setPowerMotorList(motors, (vMax - vMin) / (currentHeight - wantedHeight) * currentHeight + vMin);
         }
     }
 
     public static boolean atUp() {
-        if (currentHeight >= wantedHeight && Elevator.state == ElevatorState.up) {
+        if (currentHeight >= wantedHeight && Elevator.state == ElevatorState.uping) {
             return true;
         }
         return false;
