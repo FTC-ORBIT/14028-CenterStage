@@ -37,9 +37,6 @@ public class Init extends OpMode {
 
         //Drive.drive(gamepad1, telemetry);
 
-        telemetry.addData("Current elevator height in ticks", Elevator.currentHeight);
-
-
         // check if the dpad_up button is clicked - set the state of the elevator to up.
         if (gamepad1.dpad_up) {
             Elevator.state = ElevatorState.uping;
