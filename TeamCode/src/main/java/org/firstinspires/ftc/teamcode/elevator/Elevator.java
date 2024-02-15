@@ -34,24 +34,28 @@ public class Elevator {
     }
 
     public static void controllerBased() {
+        // control the height using the controller.
         Motors.setPowerMotorList(motors, gamepad.right_stick_y);
     }
 
     public static void stateBased() {
-        // check if the state is up - put the power to go up
+        // getting the average height of the elevators.
+        currentHeight = getCurrentHeight();
+
+        // check if the state is up - put the power to go up.
         switch (state) {
             case uping:
                 up();
-            // check if the state is downing - put the power to go downing
-            // if the state is downed then this wont be executed because the elevator is at the bottom.
+            // check if the state is downing - put the power to go downing.
+            // *if the state is downed then this wont be executed because the elevator is at the bottom*
             case downing:
                 down();
         }
     }
 
     public static void up() {
+        // setting min and max volt
         double vMin = 0.1, vMax = 0.4;
-        currentHeight = getCurrentHeight();
 
         // if the elevator is at or above wanted height
         if (currentHeight >= wantedHeight) {
@@ -70,7 +74,7 @@ public class Elevator {
     }
 
     public static void down() {
-        // setting min and max power, and timer time and power.
+        // setting min and max volt, and timer time and power.
         double vMin = -0.1, vMax = -0.3;
         double time = 0.1, timerPower = 0.1;
         currentHeight = getCurrentHeight();

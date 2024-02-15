@@ -52,7 +52,7 @@ public class Init extends OpMode {
         // insert the power to the motors based on the state of the elevator
         Elevator.stateBased();
 
-        telemetry.addData("Current elevator height in ticks", Elevator.currentHeight);
+        telemetry.addData("Current elevator height in ticks", Elevator.getCurrentHeight());
         telemetry.update();
     }
 }
