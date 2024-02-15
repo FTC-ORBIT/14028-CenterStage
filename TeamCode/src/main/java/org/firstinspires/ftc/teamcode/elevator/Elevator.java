@@ -85,7 +85,7 @@ public class Elevator {
             return;
         }
 
-        // go the rest of the way there with timer.
+        // check to start the timer.
         if (currentHeight == wantedHeight) {
             downTimer.reset();
             Motors.setPowerMotorList(motors, timerPower);
