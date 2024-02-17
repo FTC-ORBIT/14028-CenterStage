@@ -3,10 +3,8 @@ package org.firstinspires.ftc.teamcode.box_and_pixel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Init;
-
 public class Box {
-    public static boolean isOpen;
+    public static boolean isOpening;
     static Servo servo;
     static double openPosition = 0;
     static double closedPosition = 0;
@@ -18,7 +16,7 @@ public class Box {
 
         servo.setDirection(Servo.Direction.FORWARD); // need to check if the direction is correct.
         servo.setPosition(closedPosition);
-        isOpen = false;
+        isOpening = false;
     }
 
     /*public void changeMode(Telemetry telemetry) {
@@ -30,20 +28,20 @@ public class Box {
     }*/
 
     public static void changeState() {
-        if (isOpen) {
-            close();
-        } else {
+        if (isOpening) {
             open();
+        } else {
+            close();
         }
     }
 
     public static void open() {
         servo.setPosition(openPosition);
-        isOpen = true;
+        isOpening = true;
     }
 
     public static void close() {
         servo.setPosition(closedPosition);
-        isOpen = false;
+        isOpening = false;
     }
 }
