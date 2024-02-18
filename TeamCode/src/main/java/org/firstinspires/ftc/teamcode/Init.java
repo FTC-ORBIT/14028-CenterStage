@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.elevator.Elevator;
 import org.firstinspires.ftc.teamcode.elevator.ElevatorState;
 
+import java.lang.reflect.Array;
+
 @TeleOp(name = "TeleOp1428")
 public class Init extends OpMode {
     public static GameState gameState;

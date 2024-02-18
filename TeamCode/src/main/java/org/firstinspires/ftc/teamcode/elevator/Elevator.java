@@ -6,7 +6,9 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.utils.Motors;
+import org.firstinspires.ftc.teamcode.utils.PID;
 
 public class Elevator {
     static DcMotor[] motors;
@@ -21,7 +23,7 @@ public class Elevator {
     public static void init(HardwareMap hardwareMap, Gamepad gamepad) {
         Elevator.gamepad = gamepad;
 
-        motors = new DcMotor[1];
+        motors = new DcMotor[2];
         motors[0] = hardwareMap.get(DcMotor.class, "el");
         motors[1] = hardwareMap.get(DcMotor.class, "er");
 
@@ -69,7 +71,7 @@ public class Elevator {
             Motors.setPowerMotorList(motors, vMax);
 
         } else {
-            Motors.setPowerMotorList(motors, (vMax - vMin)/((wantedHeight * per2) - wantedHeight) * currentHeight + vMin - (vMax - vMin)/((wantedHeight * per2) - wantedHeight) * wantedHeight);
+            Motors.setPowerMotorList(motors, (vMax - vMin)/((wantedHeight * per2) - wantedHeight) * currentHeight + (vMin * per2 - vMin - vMax)/(per2 - 1));
         }
     }
 
