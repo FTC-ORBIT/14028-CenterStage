@@ -71,7 +71,7 @@ public class Elevator {
             Motors.setPowerMotorList(motors, vMax);
 
         } else {
-            Motors.setPowerMotorList(motors, (vMax - vMin)/((wantedHeight * per2) - wantedHeight) * currentHeight + (vMin * per2 - vMin - vMax)/(per2 - 1));
+            Motors.setPowerMotorList(motors, (vMax - vMin)/((wantedHeight * per2) - wantedHeight) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
         }
     }
 
