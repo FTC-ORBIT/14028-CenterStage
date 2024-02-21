@@ -23,14 +23,14 @@ public class Elevator {
     public static void init(HardwareMap hardwareMap, Gamepad gamepad) {
         Elevator.gamepad = gamepad;
 
-        motors = new DcMotor[2];
+        motors = new DcMotor[1];
         motors[0] = hardwareMap.get(DcMotor.class, "el");
-        motors[1] = hardwareMap.get(DcMotor.class, "er");
+        //motors[1] = hardwareMap.get(DcMotor.class, "er");
 
-        motors[1].setDirection(DcMotorSimple.Direction.REVERSE);
+        //motors[1].setDirection(DcMotorSimple.Direction.REVERSE);
 
         motors[0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         state = ElevatorState.downing;
     }
