@@ -41,13 +41,13 @@ public class Init extends OpMode {
 
         // check if the dpad_up button is clicked - set the state of the elevator to up.
         if (gamepad1.dpad_up) {
-            Elevator.state = ElevatorState.uping;
-            Elevator.wantedHeight = 1000;
+            Elevator.setState(ElevatorState.uping);
+            Elevator.setWantedHeight(1000);
         }
         // check if the dpad_down button is clicked - set the state of the elevator to down.
         else if (gamepad1.dpad_down) {
-            Elevator.state = ElevatorState.downing;
-            Elevator.wantedHeight = 100;
+            Elevator.setState(ElevatorState.downing);
+            Elevator.setWantedHeight(100);
         }
 
         Elevator.controllerBased();
@@ -55,6 +55,7 @@ public class Init extends OpMode {
         //Elevator.stateBased();
 
         telemetry.addData("Current elevator height in ticks", Elevator.getCurrentHeight());
+        telemetry.addData("Current Elevator State", Elevator.getState());
         telemetry.update();
     }
 }

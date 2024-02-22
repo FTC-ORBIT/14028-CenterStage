@@ -12,9 +12,9 @@ import org.firstinspires.ftc.teamcode.utils.PID;
 
 public class Elevator {
     static DcMotor[] motors;
-    public static int currentHeight;
-    public static int wantedHeight;
-    public static ElevatorState state;
+    static int currentHeight;
+    static int wantedHeight;
+    static ElevatorState state;
     static Gamepad gamepad;
     static ElapsedTime downTimer = new ElapsedTime();
     static double per1 = 0.15;
@@ -111,6 +111,18 @@ public class Elevator {
             return true;
         }
         return false;
+    }
+
+    public static ElevatorState getState() {
+        return state;
+    }
+
+    public static void setState(ElevatorState newState) {
+        state = newState;
+    }
+
+    public static void setWantedHeight(int newWantedHeight) {
+        wantedHeight = newWantedHeight;
     }
 
     public static int getCurrentHeight() {
