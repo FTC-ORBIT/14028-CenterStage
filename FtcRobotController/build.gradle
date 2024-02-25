@@ -8,9 +8,9 @@ apply plugin: 'com.android.library'
 android {
 
     defaultConfig {
-        minSdkVersion 24
+        minSdk 34
+        targetSdk 34
         //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 24
         buildConfigField "String", "APP_BUILD_TIME", '"' + (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ROOT).format(new Date())) + '"'
     }
     compileSdk 34
