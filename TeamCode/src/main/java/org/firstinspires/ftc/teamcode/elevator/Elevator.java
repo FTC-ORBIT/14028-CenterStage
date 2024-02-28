@@ -97,7 +97,7 @@ public class Elevator {
         }
 
         if (state == ElevatorState.downed) {
-            Motors.setPowerMotorList(motors, 0);
+            return;
         }
 
         switch (state) {
