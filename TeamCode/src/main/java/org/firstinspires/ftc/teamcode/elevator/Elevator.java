@@ -18,7 +18,6 @@ public class Elevator {
     static int startHeight;
     static ElevatorState state;
     static Gamepad gamepad;
-    static ElapsedTime downTimer = new ElapsedTime();
     static double per1 = 0.1;
     static double per2 = 0.9;
 
@@ -114,7 +113,6 @@ public class Elevator {
     public static void down(DcMotor motor) {
         // setting min and max volt, and timer time and power.
         double vMin = -0.5, vMax = -0.8;
-        double time = 0.5, timerPower = -0.8;
 
         currentHeight = getCurrentHeight(motor);
 
