@@ -100,8 +100,15 @@ public class Elevator {
             Motors.setPowerMotorList(motors, 0);
         }
 
-        motors[0].setPower(motors[0].getPower() - prop);
-        motors[1].setPower(motors[1].getPower() + prop);
+        switch (state) {
+            case uping:
+                motors[0].setPower(motors[0].getPower() - prop);
+                motors[1].setPower(motors[1].getPower() + prop);
+                break;
+            case downing:
+                motors[0].setPower(motors[0].getPower() + prop);
+                motors[1].setPower(motors[1].getPower() - prop);
+        }
     }
 
     public static void down(DcMotor motor) {
@@ -117,13 +124,6 @@ public class Elevator {
             return;
         }
 
-        // check to start the timer.
-        /*if (currentHeight == wantedHeight) {
-            downTimer.reset();
-            Motors.setPowerMotorList(motors, timerPower);
-        }
-         */
-        // if the timer is done then the elevator is at the bottom and the power of the motors should be 0.
         if (getCurrentHeight(motors[0]) <= getWantedHeight()) {
             Motors.setPowerMotorList(motors, 0);
             state = ElevatorState.downed;
