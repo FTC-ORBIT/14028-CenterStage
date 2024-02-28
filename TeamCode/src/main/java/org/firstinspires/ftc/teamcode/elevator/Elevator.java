@@ -43,6 +43,23 @@ public class Elevator {
         Motors.setPowerMotorList(motors, gamepad.right_stick_y);
     }
 
+    public static void level0() {
+        setWantedHeight(15);
+        setState(ElevatorState.downing);
+    }
+    public static void level1() {
+        setWantedHeight(1000);
+        setState(ElevatorState.uping);
+    }
+    public static void level2() {
+        setWantedHeight(1500);
+        setState(ElevatorState.uping);
+    }
+
+    public static void level3() {
+        setWantedHeight(1700);
+        setState(ElevatorState.uping);
+    }
     public static void stateBased(Telemetry telemetry) {
         // getting the average height of the elevators.
 
@@ -149,8 +166,8 @@ public class Elevator {
         state = newState;
     }
 
-    public static void setWantedHeight(int newWantedHeight) {
-        wantedHeight = newWantedHeight;
+    public static void setWantedHeight(int wantedHeight) {
+        Elevator.wantedHeight = wantedHeight;
     }
 
     public static int getWantedHeight() { return wantedHeight; }
