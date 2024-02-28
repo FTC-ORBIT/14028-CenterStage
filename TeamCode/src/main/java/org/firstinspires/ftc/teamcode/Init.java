@@ -42,20 +42,29 @@ public class Init extends OpMode {
         // check if the dpad_up button is clicked - set the state of the elevator to up.
         if (gamepad1.dpad_up) {
             Elevator.setState(ElevatorState.uping);
+            Elevator.setWantedHeight(1500);
+        } else if (gamepad1.dpad_left) {
+            Elevator.setState(ElevatorState.uping);
             Elevator.setWantedHeight(1000);
         }
+        else if (gamepad1.dpad_right) {
+            Elevator.setState(ElevatorState.uping);
+            Elevator.setWantedHeight(1800);
+        }
         // check if the dpad_down button is clicked - set the state of the elevator to down.
-        else if (gamepad1.dpad_down) {
+        else if (gamepad1.dpad_down && Elevator.getState() != ElevatorState.downed) {
             Elevator.setState(ElevatorState.downing);
-            Elevator.setWantedHeight(100);
+            Elevator.setWantedHeight(15);
         }
 
-        Elevator.controllerBased();
+        //Elevator.controllerBased();
         // insert the power to the motors based on the state of the elevator
-        //Elevator.stateBased();
+        Elevator.stateBased(telemetry);
 
-        telemetry.addData("Current elevator height in ticks", Elevator.getCurrentHeight());
+        telemetry.addData("Current elevator height in ticks", Elevator.getCurrentHeight(Elevator.motors[0]));
+        telemetry.addData("Current elevator height in ticks", Elevator.getCurrentHeight(Elevator.motors[1]));
         telemetry.addData("Current Elevator State", Elevator.getState());
+        telemetry.addData("Current Wanted Height", Elevator.getWantedHeight());
         telemetry.update();
     }
 }
