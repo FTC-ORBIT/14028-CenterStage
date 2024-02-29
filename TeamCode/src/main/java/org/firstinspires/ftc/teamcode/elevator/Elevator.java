@@ -117,7 +117,7 @@ public class Elevator {
         // multiply the difference by a small number.
         double prop = dif * 0.005;
 
-        // check if the absolute value of the proportion is bigger then 0.3.
+        // check if the absolute value of the proportion is bigger then num.
         if (Math.abs(prop) > 0.3) {
             // multiply the prop by the absolute value of prop which can be -1 and 1.
             prop = 0.3 * Math.signum(prop);
