@@ -9,6 +9,13 @@ public class Motors {
         }
     }
 
+    public static void resetEncoders(DcMotor[] motors) {
+        for (DcMotor motor : motors) {
+            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
+    }
+
     /*public static int setWantedHeight(int height) {
         return (int) (height * (96 / 537.7));
     }*/

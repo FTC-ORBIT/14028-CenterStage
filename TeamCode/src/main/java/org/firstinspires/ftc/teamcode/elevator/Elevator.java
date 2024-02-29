@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.MotorControlAlgorithm;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.State;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.utils.Motors;
 import org.firstinspires.ftc.teamcode.utils.PID;
@@ -104,18 +105,25 @@ public class Elevator {
     }
 
     static void proportion() {
-        int dif = getCurrentHeight(motors[0]) - getCurrentHeight(motors[1]);
-
-        double prop = dif * 0.005;
-
-        if (prop > 0.3) {
-            prop = 0.3;
-        }
-
+        // check if the state of elevator is downed.
         if (state == ElevatorState.downed) {
+            // if true - stop running function.
             return;
         }
 
+        // calculate the difference between the encoders.
+        int dif = getCurrentHeight(motors[0]) - getCurrentHeight(motors[1]);
+
+        // multiply the difference by a small number.
+        double prop = dif * 0.005;
+
+        // check if the absolute value of the proportion is bigger then 0.3.
+        if (Math.abs(prop) > 0.3) {
+            // multiply the prop by the absolute value of prop which can be -1 and 1.
+            prop = 0.3 * Math.signum(prop);
+        }
+
+        // check the state to know if to remove or add to the motor power.
         switch (state) {
             case uping:
                 motors[0].setPower(motors[0].getPower() - prop);
@@ -124,6 +132,7 @@ public class Elevator {
             case downing:
                 motors[0].setPower(motors[0].getPower() + prop);
                 motors[1].setPower(motors[1].getPower() - prop);
+                break;
         }
     }
 
@@ -145,34 +154,34 @@ public class Elevator {
         }
     }
 
+    // check if the elevator is at or higher than the wanted height.
     public static boolean atUp() {
-        if (currentHeight >= wantedHeight && Elevator.state == ElevatorState.uping) {
+        if (currentHeight >= wantedHeight && getState() == ElevatorState.uping) {
             return true;
         }
         return false;
     }
+
+    // check if the elevator at the bottom.
     public static boolean atDown() {
-        if (state == ElevatorState.downed) {
+        if (getState() == ElevatorState.downed) {
             return true;
         }
         return false;
     }
 
-    public static ElevatorState getState() {
-        return state;
-    }
+    // get the current state.
+    public static ElevatorState getState() { return state; }
 
-    public static void setState(ElevatorState newState) {
-        state = newState;
-    }
+    // set the current state.
+    public static void setState(ElevatorState newState) { state = newState; }
 
-    public static void setWantedHeight(int wantedHeight) {
-        Elevator.wantedHeight = wantedHeight;
-    }
-
+    // get the wanted wanted height.
     public static int getWantedHeight() { return wantedHeight; }
 
-    public static int getCurrentHeight(DcMotor motor) {
-        return currentHeight = Math.abs(motor.getCurrentPosition()) - startHeight;
-    }
+    // set the wanted height.
+    public static void setWantedHeight(int wantedHeight) { Elevator.wantedHeight = wantedHeight; }
+
+    // get current height.
+    public static int getCurrentHeight(DcMotor motor) { return currentHeight = Math.abs(motor.getCurrentPosition()) - startHeight; }
 }
