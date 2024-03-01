@@ -39,8 +39,12 @@ public class Init extends OpMode {
 
         //Drive.drive(gamepad1, telemetry);
 
+        // check if the controller right y stick has any input, and move the elevator according to it.
+        if (Math.abs(gamepad1.right_stick_y) > 0) {
+            Elevator.setState(ElevatorState.controller);
+        }
         // check if the dpad_up button is clicked - set the state of the elevator to up.
-        if (gamepad1.dpad_left) {
+        else if (gamepad1.dpad_left) {
             Elevator.level1();
         } else if (gamepad1.dpad_up) {
             Elevator.level2();
@@ -53,8 +57,9 @@ public class Init extends OpMode {
             Elevator.level0();
         }
 
-        //Elevator.controllerBased();
-        // insert the power to the motors based on the state of the elevator
+        // power the motors based on controller input
+        Elevator.controllerBased();
+        // power the motors based on the state of the elevator
         Elevator.stateBased(telemetry);
 
         telemetry.addData("Current elevator height in ticks", Elevator.getCurrentHeight(Elevator.motors[0]));

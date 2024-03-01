@@ -39,11 +39,6 @@ public class Elevator {
         state = ElevatorState.downed;
     }
 
-    public static void controllerBased() {
-        // control the height using the controller.
-        Motors.setPowerMotorList(motors, gamepad.right_stick_y);
-    }
-
     public static void level0() {
         setWantedHeight(15);
         setState(ElevatorState.downing);
@@ -62,46 +57,96 @@ public class Elevator {
         setState(ElevatorState.uping);
     }
     public static void stateBased(Telemetry telemetry) {
-        // getting the average height of the elevators.
 
-        // check if the state is up - put the power to go up.
         switch (state) {
-            case uping:
-                up(motors[0]);
-                up(motors[1]);
+            // switch to controller.
+            case controller:
+                controllerBased();
                 break;
+
+            // check if the state is up - put the power to go up.
+            case uping:
+                up();
+                //up(motors[1]);
+                break;
+
             // check if the state is downing - put the power to go downing.
             // *if the state is downed then this wont be executed because the elevator is at the bottom*
             case downing:
-                down(motors[0]);
-                down(motors[1]);
+                down();
+                //down(motors[1]);
                 break;
         }
 
         proportion();
     }
 
-    public static void up(DcMotor motor) {
+    public static void controllerBased() {
+        // control the height using the controller.
+        Motors.setPowerMotorList(motors, gamepad.right_stick_y);
+    }
+
+    static void up() {
         // setting min and max volt
         double vMin = 0.6, vMax = 0.9;
-        currentHeight = getCurrentHeight(motor);
+        currentHeight = getCurrentHeight(motors[0]);
 
         // if the elevator is at or above wanted height
         if (currentHeight >= getWantedHeight() - 30) {
-            //Motors.setPowerMotorList(motors, 0);
-            motor.setPower(0);
+            Motors.setPowerMotorList(motors, 0);
+            //motor.setPower(0);
         }
         // below some precent have a different power.
         else if (currentHeight <= per1 * getWantedHeight()) {
-            //Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
-            motor.setPower((vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
+            Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
+            //motor.setPower((vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
+
         } else if (currentHeight <= per2 * getWantedHeight() && currentHeight > getWantedHeight() * per1) {
-            //Motors.setPowerMotorList(motors, vMax);
-            motor.setPower(vMax);
+            Motors.setPowerMotorList(motors, vMax);
+            //motor.setPower(vMax);
+
         } else {
-            //Motors.setPowerMotorList(motors, (vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
-            motor.setPower((vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
+            Motors.setPowerMotorList(motors, (vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
+            //motor.setPower((vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
+
         }
+    }
+
+    static void down() {
+        // setting min and max volt, and timer time and power.
+        double vMin = -0.5, vMax = -0.8;
+
+        currentHeight = getCurrentHeight(motors[0]);
+
+        if (currentHeight <= getWantedHeight()) {
+            Motors.setPowerMotorList(motors, 0);
+            state = ElevatorState.downed;
+
+        }
+        // below some precent have a different power.
+        else if (currentHeight >= per2 * getWantedHeight()) {
+            Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
+            //motor.setPower((vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
+
+        } else if (currentHeight >= per2 * getWantedHeight() && currentHeight < getWantedHeight() * per1) {
+            Motors.setPowerMotorList(motors, vMax);
+            //motor.setPower(vMax);
+
+        } else {
+            Motors.setPowerMotorList(motors, (vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
+            //motor.setPower((vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
+
+        }
+
+        // if the elevator is above the wanted height - insert the power based on height.
+//        if (currentHeight > wantedHeight) {
+//            //Motors.setPowerMotorList(motors, (vMax - vMin) / (currentHeight - wantedHeight) * currentHeight + vMin);
+//        }
+
+//        if (getCurrentHeight(motor) <= getWantedHeight()) {
+//            Motors.setPowerMotorList(motors, 0);
+//            state = ElevatorState.downed;
+//        }
     }
 
     static void proportion() {
@@ -134,43 +179,6 @@ public class Elevator {
                 motors[1].setPower(motors[1].getPower() - prop);
                 break;
         }
-    }
-
-    public static void down(DcMotor motor) {
-        // setting min and max volt, and timer time and power.
-        double vMin = -0.5, vMax = -0.8;
-
-        currentHeight = getCurrentHeight(motor);
-
-        if (currentHeight <= getWantedHeight()) {
-            Motors.setPowerMotorList(motors, 0);
-            state = ElevatorState.downed;
-
-        }
-        // below some precent have a different power.
-        else if (currentHeight >= per2 * getWantedHeight()) {
-            //Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
-            motor.setPower((vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
-
-        } else if (currentHeight >= per2 * getWantedHeight() && currentHeight < getWantedHeight() * per1) {
-            //Motors.setPowerMotorList(motors, vMax);
-            motor.setPower(vMax);
-
-        } else {
-            //Motors.setPowerMotorList(motors, (vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
-            motor.setPower((vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
-
-        }
-
-        // if the elevator is above the wanted height - insert the power based on height.
-//        if (currentHeight > wantedHeight) {
-//            //Motors.setPowerMotorList(motors, (vMax - vMin) / (currentHeight - wantedHeight) * currentHeight + vMin);
-//        }
-
-//        if (getCurrentHeight(motor) <= getWantedHeight()) {
-//            Motors.setPowerMotorList(motors, 0);
-//            state = ElevatorState.downed;
-//        }
     }
 
     // check if the elevator is at or higher than the wanted height.
