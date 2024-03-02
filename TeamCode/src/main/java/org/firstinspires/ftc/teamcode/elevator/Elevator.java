@@ -19,7 +19,7 @@ public class Elevator {
     static int startHeight;
     static ElevatorState state;
     static Gamepad gamepad;
-    static double per1 = 0.1;
+    static double per1 = 0.15;
     static double per2 = 0.9;
 
     public static void init(HardwareMap hardwareMap, Gamepad gamepad) {
@@ -114,7 +114,7 @@ public class Elevator {
 
     static void down() {
         // setting min and max volt, and timer time and power.
-        double vMin = -0.5, vMax = -0.8;
+        double vMin = -0.6, vMax = -0.9;
 
         currentHeight = getCurrentHeight(motors[0]);
 
@@ -123,7 +123,7 @@ public class Elevator {
             state = ElevatorState.downed;
 
         }
-        // below some precent have a different power.
+        // above some precent have a different power.
         else if (currentHeight >= per2 * getWantedHeight()) {
             Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
             //motor.setPower((vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
