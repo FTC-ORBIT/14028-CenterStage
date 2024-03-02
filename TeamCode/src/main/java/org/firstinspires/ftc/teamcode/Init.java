@@ -40,18 +40,14 @@ public class Init extends OpMode {
         //Drive.drive(gamepad1, telemetry);
 
         // check if the controller right y stick has any input, and move the elevator according to it.
-        if (Math.abs(gamepad1.right_stick_y) > 0) {
-            //Elevator.setState(ElevatorState.controller);
-            telemetry.addData("gamepad right joystick y input", gamepad1.right_stick_y);
+        if (gamepad1.dpad_right) {
+            Elevator.setState(ElevatorState.controller);
         }
         // check if the dpad_up button is clicked - set the state of the elevator to up.
         else if (gamepad1.dpad_left) {
             Elevator.level1();
         } else if (gamepad1.dpad_up) {
             Elevator.level2();
-        }
-        else if (gamepad1.dpad_right) {
-            Elevator.level3();
         }
         // check if the dpad_down button is clicked - set the state of the elevator to down.
         else if (gamepad1.dpad_down && Elevator.getState() != ElevatorState.downed) {
