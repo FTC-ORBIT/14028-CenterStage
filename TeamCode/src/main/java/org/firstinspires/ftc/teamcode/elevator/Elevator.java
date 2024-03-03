@@ -66,15 +66,15 @@ public class Elevator {
 
             // check if the state is up - put the power to go up.
             case uping:
-                up();
-                //up(motors[1]);
+                up(motors[0]);
+                up(motors[1]);
                 break;
 
             // check if the state is downing - put the power to go downing.
             // *if the state is downed then this wont be executed because the elevator is at the bottom*
             case downing:
-                down();
-                //down(motors[1]);
+                down(motors[0]);
+                down(motors[1]);
                 break;
         }
 
@@ -86,13 +86,13 @@ public class Elevator {
         Motors.setPowerMotorList(motors, gamepad.right_stick_y);
     }
 
-    static void up() {
+    static void up(DcMotor motor) {
         // setting min and max volt
         double vMin = 0.6, vMax = 0.9;
-        currentHeight = getCurrentHeight(motors[0]);
+        currentHeight = getCurrentHeight(motor);
 
         // if the elevator is at or above wanted height
-        if (currentHeight >= getWantedHeight() - 30) {
+        if (currentHeight >= getWantedHeight()) {
             Motors.setPowerMotorList(motors, 0);
             //motor.setPower(0);
         }
@@ -112,11 +112,11 @@ public class Elevator {
         }
     }
 
-    static void down() {
+    static void down(DcMotor motor) {
         // setting min and max volt, and timer time and power.
-        double vMin = -0.6, vMax = -0.9;
+        double vMin = -0.4, vMax = -0.7;
 
-        currentHeight = getCurrentHeight(motors[0]);
+        currentHeight = getCurrentHeight(motor);
 
         if (currentHeight <= getWantedHeight()) {
             Motors.setPowerMotorList(motors, 0);
@@ -160,7 +160,7 @@ public class Elevator {
         int dif = getCurrentHeight(motors[0]) - getCurrentHeight(motors[1]);
 
         // multiply the difference by a small number.
-        double prop = dif * 0.005;
+        double prop = dif * 0.001;
 
         // check if the absolute value of the proportion is bigger then num.
         if (Math.abs(prop) > 0.3) {
