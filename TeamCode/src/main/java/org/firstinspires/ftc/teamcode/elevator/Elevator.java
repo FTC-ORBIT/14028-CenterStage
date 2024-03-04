@@ -93,21 +93,21 @@ public class Elevator {
 
         // if the elevator is at or above wanted height
         if (currentHeight >= getWantedHeight()) {
-            Motors.setPowerMotorList(motors, 0);
-            //motor.setPower(0);
+            //Motors.setPowerMotorList(motors, 0);
+            motor.setPower(0);
         }
         // below some precent have a different power.
         else if (currentHeight <= per1 * getWantedHeight()) {
-            Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
-            //motor.setPower((vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
+            //Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
+            motor.setPower((vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
 
         } else if (currentHeight <= per2 * getWantedHeight() && currentHeight > getWantedHeight() * per1) {
-            Motors.setPowerMotorList(motors, vMax);
-            //motor.setPower(vMax);
+            //Motors.setPowerMotorList(motors, vMax);
+            motor.setPower(vMax);
 
         } else {
-            Motors.setPowerMotorList(motors, (vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
-            //motor.setPower((vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
+            //Motors.setPowerMotorList(motors, (vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
+            motor.setPower((vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
 
         }
     }
@@ -119,22 +119,22 @@ public class Elevator {
         currentHeight = getCurrentHeight(motor);
 
         if (currentHeight <= getWantedHeight()) {
-            Motors.setPowerMotorList(motors, 0);
+            motor.setPower(0);
             state = ElevatorState.downed;
 
         }
         // above some precent have a different power.
         else if (currentHeight >= per2 * getWantedHeight()) {
-            Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
-            //motor.setPower((vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
+            //Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
+            motor.setPower((vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
 
         } else if (currentHeight >= per2 * getWantedHeight() && currentHeight < getWantedHeight() * per1) {
-            Motors.setPowerMotorList(motors, vMax);
-            //motor.setPower(vMax);
+            //Motors.setPowerMotorList(motors, vMax);
+            motor.setPower(vMax);
 
         } else {
-            Motors.setPowerMotorList(motors, (vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
-            //motor.setPower((vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
+            //Motors.setPowerMotorList(motors, (vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
+            motor.setPower((vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
 
         }
 
