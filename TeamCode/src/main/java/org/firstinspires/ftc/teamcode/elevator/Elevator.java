@@ -163,9 +163,9 @@ public class Elevator {
         double prop = dif * 0.001;
 
         // check if the absolute value of the proportion is bigger then num.
-        if (Math.abs(prop) > 0.3) {
+        if (Math.abs(prop) > 0.1) {
             // multiply the prop by the absolute value of prop which can be -1 and 1.
-            prop = 0.3 * Math.signum(prop);
+            prop = 0.1 * Math.signum(prop);
         }
 
         // check the state to know if to remove or add to the motor power.
