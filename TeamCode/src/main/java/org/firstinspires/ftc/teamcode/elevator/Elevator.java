@@ -208,12 +208,16 @@ public class Elevator {
 
     // set the wanted height.
 
-    public static void setWantedHeight(int wantedHeightCm) {
+    /*public static void setWantedHeight(int wantedHeightCm) {
         double ticksPerRevolution = 0.96;
         int wheelCircumference = 435;
 
         double ticksPerCm = ticksPerRevolution / wheelCircumference;
         wantedHeight = (int) (wantedHeightCm * ticksPerCm);
+    }*/
+
+    public static void setWantedHeight(int wantedHeight) {
+        Elevator.wantedHeight = wantedHeight;
     }
 
     // get current height.
