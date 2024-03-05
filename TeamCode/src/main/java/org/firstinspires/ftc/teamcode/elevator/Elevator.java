@@ -201,14 +201,22 @@ public class Elevator {
     public static ElevatorState getState() { return state; }
 
     // set the current state.
-    public static void setState(ElevatorState newState) { state = newState; }
+    public static void setState(ElevatorState state) { Elevator.state = state; }
 
     // get the wanted wanted height.
     public static int getWantedHeight() { return wantedHeight; }
 
     // set the wanted height.
-    public static void setWantedHeight(int wantedHeight) { Elevator.wantedHeight = wantedHeight; }
+
+    public static void setWantedHeight(int wantedHeightCm) {
+        double ticksPerRevolution = 0.96;
+        int wheelCircumference = 435;
+
+        double ticksPerCm = ticksPerRevolution / wheelCircumference;
+        wantedHeight = (int) (wantedHeightCm * ticksPerCm);
+    }
 
     // get current height.
     public static int getCurrentHeight(DcMotor motor) { return currentHeight = Math.abs(motor.getCurrentPosition()) - startHeight; }
+
 }

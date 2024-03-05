@@ -19,14 +19,6 @@ public class Box {
         isOpening = false;
     }
 
-    /*public void changeMode(Telemetry telemetry) {
-        if (gamepad.x && !isOpen) {
-            servo.setPosition(openPosition);
-        } else if (gamepad.x && isOpen) {
-            servo.setPosition(closedPosition);
-        }
-    }*/
-
     public static void changeState() {
         if (isOpening) {
             open();

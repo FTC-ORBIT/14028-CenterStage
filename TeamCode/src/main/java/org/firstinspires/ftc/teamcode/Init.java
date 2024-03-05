@@ -15,31 +15,32 @@ public class Init extends OpMode {
     @Override
     public void init() {
         // Initialize drive's the hardware map.
-        //Drive.init(hardwareMap);
+        // Drive.init(hardwareMap);
 
         // Initialize gyro's hardware map.
-        //CHGyro.init(hardwareMap);
+        // CHGyro.init(hardwareMap);
 
         // Initialize elevator's hardware map.
         Elevator.init(hardwareMap, gamepad1);
 
         // Initialize box's hardware map.
-        //Box.init(hardwareMap);
+        // Box.init(hardwareMap);
 
         // Initialize pixel's hardware map.
-        //Pixel.init(hardwareMap);
+        // Pixel.init(hardwareMap);
 
         // Initialize pixel's hardware map.
-        //Airplane.init(hardwareMap);
+        // Airplane.init(hardwareMap);
     }
 
     @Override
     public void loop() {
         // drive and robot using the controller gamepad1.
 
-        //Drive.drive(gamepad1, telemetry);
+        // Drive.drive(gamepad1, telemetry);
 
-        // check if the controller right y stick has any input, and move the elevator according to it.
+        // check if the controller right y stick has any input, and move the elevator
+        // according to it.
         if (gamepad1.dpad_right) {
             Elevator.setState(ElevatorState.controller);
         }
@@ -49,7 +50,8 @@ public class Init extends OpMode {
         } else if (gamepad1.dpad_up) {
             Elevator.level2();
         }
-        // check if the dpad_down button is clicked - set the state of the elevator to down.
+        // check if the dpad_down button is clicked - set the state of the elevator to
+        // down.
         else if (gamepad1.dpad_down && Elevator.getState() != ElevatorState.downed) {
             Elevator.level0();
         }
@@ -65,18 +67,20 @@ public class Init extends OpMode {
     }
 }
 
+/*
+ * if (gamepad1.x && Elevator.atDown() && !Box.isOpen && !Pixel.isOpen) {
+ * Box.changeState();
+ * Pixel.open();
+ * } else if (gamepad1.x && Elevator.atDown() && Box.isOpen && Pixel.isOpen) {
+ * Box.changeState();
+ * Pixel.close();
+ * } else if (gamepad1.x && Elevator.atUp()) {
+ * Pixel.open();
+ * }
+ */
 
-
- /*if (gamepad1.x && Elevator.atDown() && !Box.isOpen && !Pixel.isOpen) {
-            Box.changeState();
-            Pixel.open();
-        } else if (gamepad1.x && Elevator.atDown() && Box.isOpen && Pixel.isOpen) {
-            Box.changeState();
-            Pixel.close();
-        } else if (gamepad1.x && Elevator.atUp()) {
-            Pixel.open();
-        }*/
-
-        /*if (gamepad1.y) {
-            Airplane.launch();
-        }*/
+/*
+ * if (gamepad1.y) {
+ * Airplane.launch();
+ * }
+ */
