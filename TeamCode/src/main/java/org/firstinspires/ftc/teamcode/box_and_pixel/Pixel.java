@@ -4,11 +4,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Pixel {
-
     static Servo servo;
-
     public static boolean isOpen;
-
     static double openPosition = 0;
     static double closedPosition = 0;
 
