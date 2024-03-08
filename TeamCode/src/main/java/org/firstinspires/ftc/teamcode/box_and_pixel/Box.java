@@ -35,5 +35,10 @@ public class Box {
 
     public static void close() {
         servo.setPosition(closedPosition);
+        isOpen = false;
+    }
+
+    public static void setPosition(double position) {
+        servo.setPosition(position);
     }
 }

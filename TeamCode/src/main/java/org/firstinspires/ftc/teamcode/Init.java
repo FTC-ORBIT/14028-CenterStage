@@ -59,12 +59,11 @@ public class Init extends OpMode {
 
         if (gamepad1.x) {
             //Box.changeState();
-            Box.servo.setPosition(50);
+            Box.setPosition(10);
         }
 
         // power the motors based on the state of the elevator
         //Elevator.stateBased(telemetry);
-
         /*telemetry.addData("Current elevator height in ticks", Elevator.getCurrentHeight(Elevator.motors[0]));
         telemetry.addData("Current elevator height in ticks", Elevator.getCurrentHeight(Elevator.motors[1]));
         telemetry.addData("Current Elevator State", Elevator.getState());

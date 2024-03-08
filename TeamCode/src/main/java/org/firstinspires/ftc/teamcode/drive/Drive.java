@@ -51,23 +51,36 @@ public class Drive {
 
         telemetry.update();
 
-        /*if (Init.elevator.state != ElevatorState.down) {
-            gamepadVector = setElevatorBasedSpeed(gamepadVector.x, gamepadVector.y, 0, 0, Init.elevator.currentHeight);
-        }*/
+        gamepadVector = setElevatorBasedSpeed(Elevator.getWantedHeight(), Elevator.getCurrentHeight(Elevator.motors[0]));
 
         // rotate the vector by minus the angle of the robot(in radians).
         gamepadVector = gamepadVector.rotate(-Math.toRadians(robotAngle));
 
         // set the power of the motors.
-        motors[0].setPower(gamepadVector.y + gamepadVector.x + rx);
-        motors[1].setPower(gamepadVector.y - gamepadVector.x - rx);
-        motors[2].setPower(gamepadVector.y - gamepadVector.x + rx);
-        motors[3].setPower(gamepadVector.y + gamepadVector.x - rx);
+        motors[0].setPower(gamepadVector.y + gamepadVector.x + gamepad.left_trigger - gamepad.right_trigger);
+        motors[1].setPower(gamepadVector.y - gamepadVector.x - gamepad.left_trigger + gamepad.right_trigger);
+        motors[2].setPower(gamepadVector.y - gamepadVector.x + gamepad.left_trigger - gamepad.right_trigger);
+        motors[3].setPower(gamepadVector.y + gamepadVector.x - gamepad.left_trigger - gamepad.right_trigger);
     }
 
-    public static Vector setElevatorBasedSpeed(double vXMax, double vYMax,double vMin, double hMax, double currentHeight) {
-        return new Vector((vXMax - vMin) / (-hMax) * currentHeight + vXMax, (vYMax - vMin) / (-hMax) * currentHeight + vYMax);
-        //return new Vector(0,0);
+    public static Vector setElevatorBasedSpeed(double maxHeight, double currentHeight) {
+        // If the elevator is in the downed state, the speed of the robot remains the same.
+        if (Elevator.getState() == ElevatorState.downed) {
+            return new Vector(gamepadVector.x, gamepadVector.y);
+        }
+
+        // If the current height of the elevator is greater than or equal to the maximum height,
+        // the speed of the robot is set to 0.2 volt in the direction of the gamepad.
+        if (currentHeight >= maxHeight) {
+            gamepadVector.x = Math.abs(gamepadVector.x) > 0 ? 0.2 * Math.signum(gamepadVector.x) : 0;
+            gamepadVector.y = Math.abs(gamepadVector.x) > 0 ? 0.2 * Math.signum(gamepadVector.y) : 0;
+
+            return new Vector(gamepadVector.x , gamepadVector.y);
+        }
+
+        // If the current height of the elevator is less than the maximum height,
+        // the speed of the robot is adjusted proportionally based on the current height and the maximum height.
+        return new Vector((gamepadVector.x / -maxHeight) * currentHeight, (gamepadVector.y / -maxHeight) * currentHeight);
     }
 
 }
