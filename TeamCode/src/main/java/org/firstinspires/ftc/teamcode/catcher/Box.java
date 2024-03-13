@@ -1,10 +1,7 @@
-package org.firstinspires.ftc.teamcode.box_and_pixel;
+package org.firstinspires.ftc.teamcode.catcher;
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Box {
     public static boolean isOpen;

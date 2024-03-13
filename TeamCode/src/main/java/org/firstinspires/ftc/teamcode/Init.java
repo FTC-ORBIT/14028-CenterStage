@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.box_and_pixel.Box;
-import org.firstinspires.ftc.teamcode.box_and_pixel.Catcher;
-import org.firstinspires.ftc.teamcode.box_and_pixel.Pixel;
+import org.firstinspires.ftc.teamcode.catcher.Box;
+import org.firstinspires.ftc.teamcode.catcher.Catcher;
+import org.firstinspires.ftc.teamcode.catcher.Pixel;
 
 @TeleOp(name = "TeleOp1428")
 public class Init extends OpMode {
