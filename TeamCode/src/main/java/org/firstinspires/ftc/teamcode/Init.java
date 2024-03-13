@@ -4,11 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.box_and_pixel.Box;
+import org.firstinspires.ftc.teamcode.box_and_pixel.Catcher;
 import org.firstinspires.ftc.teamcode.box_and_pixel.Pixel;
-import org.firstinspires.ftc.teamcode.elevator.Elevator;
-import org.firstinspires.ftc.teamcode.elevator.ElevatorState;
-
-import java.lang.reflect.Array;
 
 @TeleOp(name = "TeleOp1428")
 public class Init extends OpMode {
@@ -23,11 +20,8 @@ public class Init extends OpMode {
         // Initialize elevator's hardware map.
         //Elevator.init(hardwareMap, gamepad1);
 
-        // Initialize box's hardware map.
-        Box.init(hardwareMap);
-
-        // Initialize pixel's hardware map.
-        Pixel.init(hardwareMap);
+        // Initialize catcher's(Box and Pixel together) hardware map.
+        Catcher.init(hardwareMap);
 
         // Initialize pixel's hardware map.
         // Airplane.init(hardwareMap);
@@ -57,19 +51,13 @@ public class Init extends OpMode {
 //        }
 
         if (gamepad1.a) {
-            Pixel.open();
-            //Box.close();
+            Catcher.openCatcher();
+        } else if (gamepad1.b) {
+            Catcher.closeCatcher();
         } else if (gamepad1.x) {
-            Pixel.close();
-            //Box.close();
-        }
-
-        if (gamepad1.b) {
-            Box.open();
-            Pixel.boxOpen();
+            Catcher.openBox();
         } else if (gamepad1.y) {
-            Box.close();
-            Pixel.close();
+            Catcher.closeBox();
         }
 
         // power the motors based on the state of the elevator
@@ -79,7 +67,8 @@ public class Init extends OpMode {
         telemetry.addData("Current elevator height in ticks", Elevator.getCurrentHeight(Elevator.motors[1]));
         telemetry.addData("Current Elevator State", Elevator.getState());
         telemetry.addData("Current Wanted Height", Elevator.getWantedHeight());*/
-        telemetry.addData("Current Box Servo Position", Pixel.getPosition());
+        telemetry.addData("Current Pixel Servo Position", Pixel.getPosition());
+        telemetry.addData("Current Box Servo Position", Box.getPosition());
         telemetry.update();
     }
 }

@@ -15,7 +15,6 @@ public class Box {
     public static void init(HardwareMap hardwareMap) {
         servo = hardwareMap.get(Servo.class, "box");
         servo.setDirection(Servo.Direction.REVERSE);
-        servo.setPosition(closedPosition);
         isOpen = false;
     }
 

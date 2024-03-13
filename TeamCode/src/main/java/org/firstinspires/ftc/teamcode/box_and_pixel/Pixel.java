@@ -5,16 +5,16 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Pixel {
     static Servo servo;
-    public static boolean isOpen;
-    final static double openPosition = 0.1;
 
+    public static boolean isOpen;
+
+    final static double openPosition = 0.1;
     final static double boxOpenPosition = 0.57;
     final static double closedPosition = 0.37;
 
     public static void init(HardwareMap hardwareMap) {
         servo = hardwareMap.get(Servo.class, "pixel");
         servo.setDirection(Servo.Direction.FORWARD);
-
         isOpen = false;
     }
 
