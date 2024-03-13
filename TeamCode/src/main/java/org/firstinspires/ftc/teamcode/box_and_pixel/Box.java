@@ -9,22 +9,14 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Box {
     public static boolean isOpen;
     public static Servo servo;
-    static double openPosition = 0.1;
-    static double closedPosition = 0;
+    final static double openPosition = 0.2;
+    final static double closedPosition = 0;
 
     public static void init(HardwareMap hardwareMap) {
         servo = hardwareMap.get(Servo.class, "box");
         servo.setDirection(Servo.Direction.REVERSE);
         servo.setPosition(closedPosition);
         isOpen = false;
-    }
-
-    public static void changeState() {
-        if (!isOpen) {
-            open();
-        } else {
-            close();
-        }
     }
 
     public static void open() {
@@ -38,11 +30,7 @@ public class Box {
         isOpen = false;
     }
 
-    public static double getPosition() {
-        return servo.getPosition();
-    }
+    public static double getPosition() { return servo.getPosition(); }
 
-    public static void setPosition(double position) {
-        servo.setPosition(position);
-    }
+    public static void setPosition(double pos) { servo.setPosition(pos); }
 }

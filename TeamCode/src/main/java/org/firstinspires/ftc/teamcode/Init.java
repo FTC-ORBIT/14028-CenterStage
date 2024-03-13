@@ -39,7 +39,7 @@ public class Init extends OpMode {
 
         // Drive.drive(gamepad1, telemetry);
 
-        // check if the controller right y stick has any input, and move the elevator
+        // check if the controller right y stick has any input, and move t e elevator
         // according to it.
 //        if (gamepad1.dpad_right) {
 //            Elevator.setState(ElevatorState.controller);
@@ -56,8 +56,20 @@ public class Init extends OpMode {
 //            Elevator.level0();
 //        }
 
-        if (gamepad1.y) {
-            Pixel.changeState();
+        if (gamepad1.a) {
+            Pixel.open();
+            //Box.close();
+        } else if (gamepad1.x) {
+            Pixel.close();
+            //Box.close();
+        }
+
+        if (gamepad1.b) {
+            Box.open();
+            Pixel.boxOpen();
+        } else if (gamepad1.y) {
+            Box.close();
+            Pixel.close();
         }
 
         // power the motors based on the state of the elevator
