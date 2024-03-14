@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.catcher.Box;
 import org.firstinspires.ftc.teamcode.catcher.Catcher;
 import org.firstinspires.ftc.teamcode.catcher.Pixel;
+import org.firstinspires.ftc.teamcode.elevator.Elevator;
 
 @TeleOp(name = "TeleOp1428")
 public class Init extends OpMode {
@@ -52,12 +53,12 @@ public class Init extends OpMode {
 
         if (gamepad1.a) {
             Catcher.openCatcher();
-        } else if (gamepad1.b) {
-            Catcher.closeCatcher();
         } else if (gamepad1.x) {
-            Catcher.openBox();
-        } else if (gamepad1.y) {
+            Catcher.closeCatcher();
+        } else if (gamepad1.b) {
             Catcher.closeBox();
+        } else if (gamepad1.y) {
+            Catcher.openBox();
         }
 
         // power the motors based on the state of the elevator

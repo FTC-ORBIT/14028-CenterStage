@@ -4,19 +4,23 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.MotorControlAlgorithm;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.State;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.utils.Motors;
-import org.firstinspires.ftc.teamcode.utils.PID;
 
 public class Elevator {
     public static DcMotor[] motors;
+
     static int currentHeight;
-    static int wantedHeight;
+    static int currentWantedHeight;
     static int startHeight;
+    public static int downedWantedHeight = 15;
+    public static int collWantedHeight = 300;
+    public static int lev2WantedHeight = 1500;
+    public static int lev3WantedHeight = 1700;
+
+    public static boolean canColl;
+
     static ElevatorState state;
     static Gamepad gamepad;
     static double per1 = 0.15;
@@ -37,26 +41,33 @@ public class Elevator {
         startHeight = getCurrentHeight(motors[0]);
 
         state = ElevatorState.downed;
+
+        canColl = false;
     }
 
-    public static void level0() {
-        setWantedHeight(15);
+    public static void downedLevel() {
+        setCurrentWantedHeight(downedWantedHeight);
         setState(ElevatorState.downing);
     }
-    public static void level1() {
-        setWantedHeight(1000);
+    public static void collLevel() {
+        setCurrentWantedHeight(collWantedHeight);
         setState(ElevatorState.uping);
     }
     public static void level2() {
-        setWantedHeight(1500);
+        setCurrentWantedHeight(lev2WantedHeight);
         setState(ElevatorState.uping);
     }
 
     public static void level3() {
-        setWantedHeight(1700);
+        setCurrentWantedHeight(lev3WantedHeight);
         setState(ElevatorState.uping);
     }
     public static void stateBased(Telemetry telemetry) {
+        if (getCurrentWantedHeight() >= collWantedHeight && getCurrentWantedHeight() <= collWantedHeight + 50) {
+            canColl = true;
+        } else {
+            canColl = false;
+        }
 
         switch (state) {
             // switch to controller.
@@ -92,22 +103,22 @@ public class Elevator {
         currentHeight = getCurrentHeight(motor);
 
         // if the elevator is at or above wanted height
-        if (currentHeight >= getWantedHeight()) {
+        if (currentHeight >= getCurrentWantedHeight()) {
             //Motors.setPowerMotorList(motors, 0);
             motor.setPower(0);
         }
         // below some precent have a different power.
-        else if (currentHeight <= per1 * getWantedHeight()) {
+        else if (currentHeight <= per1 * getCurrentWantedHeight()) {
             //Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
-            motor.setPower((vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
+            motor.setPower((vMax - vMin)/(currentWantedHeight * per1) * currentHeight + vMin);
 
-        } else if (currentHeight <= per2 * getWantedHeight() && currentHeight > getWantedHeight() * per1) {
+        } else if (currentHeight <= per2 * getCurrentWantedHeight() && currentHeight > getCurrentWantedHeight() * per1) {
             //Motors.setPowerMotorList(motors, vMax);
             motor.setPower(vMax);
 
         } else {
             //Motors.setPowerMotorList(motors, (vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
-            motor.setPower((vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
+            motor.setPower((vMax - vMin)/((getCurrentWantedHeight() * per2) - getCurrentWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
 
         }
     }
@@ -118,23 +129,23 @@ public class Elevator {
 
         currentHeight = getCurrentHeight(motor);
 
-        if (currentHeight <= getWantedHeight()) {
+        if (currentHeight <= getCurrentWantedHeight()) {
             motor.setPower(0);
             state = ElevatorState.downed;
 
         }
         // above some precent have a different power.
-        else if (currentHeight >= per2 * getWantedHeight()) {
+        else if (currentHeight >= per2 * getCurrentWantedHeight()) {
             //Motors.setPowerMotorList(motors, (vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
-            motor.setPower((vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
+            motor.setPower((vMax - vMin)/((getCurrentWantedHeight() * per2) - getCurrentWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
 
-        } else if (currentHeight >= per2 * getWantedHeight() && currentHeight < getWantedHeight() * per1) {
+        } else if (currentHeight >= per2 * getCurrentWantedHeight() && currentHeight < getCurrentWantedHeight() * per1) {
             //Motors.setPowerMotorList(motors, vMax);
             motor.setPower(vMax);
 
         } else {
             //Motors.setPowerMotorList(motors, (vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
-            motor.setPower((vMax - vMin)/(wantedHeight * per1) * currentHeight + vMin);
+            motor.setPower((vMax - vMin)/(currentWantedHeight * per1) * currentHeight + vMin);
 
         }
 
@@ -183,7 +194,7 @@ public class Elevator {
 
     // check if the elevator is at or higher than the wanted height.
     public static boolean atUp() {
-        if (currentHeight >= wantedHeight && getState() == ElevatorState.uping) {
+        if (currentHeight >= currentWantedHeight && getState() == ElevatorState.uping) {
             return true;
         }
         return false;
@@ -204,7 +215,7 @@ public class Elevator {
     public static void setState(ElevatorState state) { Elevator.state = state; }
 
     // get the wanted wanted height.
-    public static int getWantedHeight() { return wantedHeight; }
+    public static int getCurrentWantedHeight() { return currentWantedHeight; }
 
     // set the wanted height.
 
@@ -216,8 +227,8 @@ public class Elevator {
         wantedHeight = (int) (wantedHeightCm * ticksPerCm);
     }*/
 
-    public static void setWantedHeight(int wantedHeight) {
-        Elevator.wantedHeight = wantedHeight;
+    public static void setCurrentWantedHeight(int currentWantedHeight) {
+        Elevator.currentWantedHeight = currentWantedHeight;
     }
 
     // get current height.

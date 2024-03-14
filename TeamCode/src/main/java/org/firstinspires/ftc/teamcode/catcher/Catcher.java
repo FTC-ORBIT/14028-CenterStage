@@ -24,13 +24,13 @@ public class Catcher {
 
     public static void openBox() {
         Box.open();
-        Pixel.boxOpen();
+        Pixel.close();
         isBoxOpen = true;
     }
 
     public static void closeBox() {
         Box.close();
-        Pixel.close();
+        Pixel.boxClose();
         isBoxOpen = false;
     }
 }

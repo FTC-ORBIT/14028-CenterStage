@@ -23,7 +23,7 @@ public class Pixel {
         isOpen = true;
     }
 
-    public static void boxOpen() {
+    public static void boxClose() {
         servo.setPosition(boxOpenPosition);
     }
 
