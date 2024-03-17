@@ -53,12 +53,12 @@ public class Elevator {
         setCurrentWantedHeight(collWantedHeight);
         setState(ElevatorState.uping);
     }
-    public static void level2() {
+    public static void level1() {
         setCurrentWantedHeight(lev2WantedHeight);
         setState(ElevatorState.uping);
     }
 
-    public static void level3() {
+    public static void level2() {
         setCurrentWantedHeight(lev3WantedHeight);
         setState(ElevatorState.uping);
     }
@@ -146,7 +146,6 @@ public class Elevator {
         } else {
             //Motors.setPowerMotorList(motors, (vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
             motor.setPower((vMax - vMin)/(currentWantedHeight * per1) * currentHeight + vMin);
-
         }
 
         // if the elevator is above the wanted height - insert the power based on height.
@@ -193,7 +192,7 @@ public class Elevator {
     }
 
     // check if the elevator is at or higher than the wanted height.
-    public static boolean atUp() {
+    public static boolean isUp() {
         if (currentHeight >= currentWantedHeight && getState() == ElevatorState.uping) {
             return true;
         }
@@ -201,7 +200,7 @@ public class Elevator {
     }
 
     // check if the elevator at the bottom.
-    public static boolean atDown() {
+    public static boolean isDown() {
         if (getState() == ElevatorState.downed) {
             return true;
         }

@@ -16,8 +16,11 @@ public class Drive {
     static DcMotor[] motors = new DcMotor[4];
 
     public static Vector gamepadVector;
+    static Gamepad gamepad;
 
-    public static void init(HardwareMap hardwareMap) {
+    public static void init(HardwareMap hardwareMap, Gamepad gamepad) {
+        Drive.gamepad = gamepad;
+
         // map all the motors.
         motors[0] = hardwareMap.get(DcMotor.class, "lf");
         motors[1] = hardwareMap.get(DcMotor.class, "rf");
@@ -35,7 +38,7 @@ public class Drive {
         }
     }
 
-    public static void drive(Gamepad gamepad, Telemetry telemetry) {
+    public static void drive(Telemetry telemetry) {
 
         // get the right stick input.
         double rx = gamepad.right_stick_x;

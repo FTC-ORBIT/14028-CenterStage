@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Catcher {
 
     static boolean isBoxOpen;
+    public static boolean shouldOpenBox;
 
     public static void init(HardwareMap hardwareMap) {
         Box.init(hardwareMap);
