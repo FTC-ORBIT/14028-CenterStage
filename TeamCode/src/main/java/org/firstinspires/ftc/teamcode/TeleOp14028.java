@@ -67,7 +67,7 @@ public class TeleOp14028 extends OpMode {
             Elevator.downedLevel();
         }
 
-        if (Catcher.shouldOpenBox && Elevator.isUp()) {
+        if (Catcher.shouldOpenBox && Elevator.isUp() && !Catcher.isBoxOpen) {
             Catcher.openBox();
         }
 
