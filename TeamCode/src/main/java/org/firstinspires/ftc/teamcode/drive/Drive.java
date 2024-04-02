@@ -53,7 +53,7 @@ public class Drive {
 
         telemetry.update();
 
-        gamepadVector = setElevatorBasedSpeed(Elevator.getCurrentWantedHeight(), Elevator.getCurrentHeight(Elevator.motors[0]));
+        gamepadVector = setElevatorBasedSpeed(Elevator.getWantedHeight(), Elevator.getCurrentHeight(Elevator.motors[0]));
 
         // rotate the vector by minus the angle of the robot(in radians).
         gamepadVector = gamepadVector.rotate(-Math.toRadians(robotAngle));

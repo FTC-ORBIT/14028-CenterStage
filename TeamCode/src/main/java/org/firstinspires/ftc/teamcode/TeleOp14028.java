@@ -34,7 +34,6 @@ public class TeleOp14028 extends OpMode {
     @Override
     public void loop() {
         // drive and robot using the controller gamepad1.
-
         Drive.drive(telemetry);
 
         // check if the controller right y stick has any input, and move t e elevator
@@ -50,7 +49,7 @@ public class TeleOp14028 extends OpMode {
         }
         // check if the dpad_down button is clicked - set the state of the elevator to
         // down.
-        else if (gamepad1.dpad_down && Elevator.getState() != ElevatorState.downed) {
+        else if (gamepad1.dpad_down && !Elevator.isDown()) {
             Elevator.downedLevel();
         }
 
@@ -67,37 +66,19 @@ public class TeleOp14028 extends OpMode {
             Elevator.downedLevel();
         }
 
-        if (Catcher.shouldOpenBox && Elevator.isUp() && !Catcher.isBoxOpen) {
+        if (Catcher.shouldOpenBox && !Catcher.isBoxOpen && Elevator.isUp()) {
             Catcher.openBox();
         }
 
         // power the motors based on the state of the elevator
         Elevator.stateBased(telemetry);
 
-        /*telemetry.addData("Current elevator height in ticks", Elevator.getCurrentHeight(Elevator.motors[0]));
-        telemetry.addData("Current elevator height in ticks", Elevator.getCurrentHeight(Elevator.motors[1]));
-        telemetry.addData("Current Elevator State", Elevator.getState());
-        telemetry.addData("Current Wanted Height", Elevator.getWantedHeight());*/
-        telemetry.addData("Current Pixel Servo Position", Pixel.getPosition());
-        telemetry.addData("Current Box Servo Position", Box.getPosition());
+        telemetry.addData("elevator height in ticks", Elevator.getCurrentHeight(Elevator.motors[0]));
+        telemetry.addData("elevator height in ticks", Elevator.getCurrentHeight(Elevator.motors[1]));
+        telemetry.addData("Elevator State", Elevator.getState());
+        telemetry.addData("Wanted Height", Elevator.getWantedHeight());
+        telemetry.addData("Pixel Servo Position", Pixel.getPosition());
+        telemetry.addData("Box Servo Position", Box.getPosition());
         telemetry.update();
     }
 }
-
-/*
- * if (gamepad1.x && Elevator.atDown() && !Box.isOpen && !Pixel.isOpen) {
- * Box.changeState();
- * Pixel.open();
- * } else if (gamepad1.x && Elevator.atDown() && Box.isOpen && Pixel.isOpen) {
- * Box.changeState();
- * Pixel.close();
- * } else if (gamepad1.x && Elevator.atUp()) {
- * Pixel.open();
- * }
- */
-
-/*
- * if (gamepad1.y) {
- * Airplane.launch();
- * }
- */
