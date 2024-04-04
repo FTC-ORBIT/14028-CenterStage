@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Box {
     public static boolean isOpen;
     public static Servo servo;
-    final static double openPosition = 0;
-    final static double closedPosition = 0.2;
+    final static double intakePosition = 0;
+    final static double deplatePosition = 0.2;
 
     public static void init(HardwareMap hardwareMap) {
         servo = hardwareMap.get(Servo.class, "box");
@@ -15,14 +15,14 @@ public class Box {
         isOpen = false;
     }
 
-    public static void open() {
-        servo.setPosition(openPosition);
+    public static void intake() {
+        servo.setPosition(intakePosition);
         //Pixel.servo.setPosition(-openPosition);
         isOpen = true;
     }
 
-    public static void close() {
-        servo.setPosition(closedPosition);
+    public static void deplate() {
+        servo.setPosition(deplatePosition);
         isOpen = false;
     }
 

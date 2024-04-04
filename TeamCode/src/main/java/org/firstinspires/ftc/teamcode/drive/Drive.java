@@ -41,7 +41,7 @@ public class Drive {
     public static void drive(Telemetry telemetry) {
 
         // get the right stick input.
-        double rx = gamepad.right_stick_x;
+        double rx = gamepad.right_trigger- gamepad.left_trigger;
 
         // get the angle of the robot and wrap it to 0-360.
         double robotAngle = Angle.wrapAngle0_360(CHGyro.getAngle());
@@ -49,20 +49,17 @@ public class Drive {
         // create a vector using the input from the left stick.
         gamepadVector = new Vector(gamepad.left_stick_x, -gamepad.left_stick_y);
 
-        telemetry.addData("robot rotation", robotAngle);
+//        gamepadVector = setElevatorBasedSpeed(Elevator.getWantedHeight(), Elevator.getCurrentHeight(Elevator.motors[0]));
 
-        telemetry.update();
-
-        gamepadVector = setElevatorBasedSpeed(Elevator.getWantedHeight(), Elevator.getCurrentHeight(Elevator.motors[0]));
 
         // rotate the vector by minus the angle of the robot(in radians).
         gamepadVector = gamepadVector.rotate(-Math.toRadians(robotAngle));
 
         // set the power of the motors.
-        motors[0].setPower(gamepadVector.y + gamepadVector.x + gamepad.left_trigger - gamepad.right_trigger);
-        motors[1].setPower(gamepadVector.y - gamepadVector.x - gamepad.left_trigger + gamepad.right_trigger);
-        motors[2].setPower(gamepadVector.y - gamepadVector.x + gamepad.left_trigger - gamepad.right_trigger);
-        motors[3].setPower(gamepadVector.y + gamepadVector.x - gamepad.left_trigger - gamepad.right_trigger);
+        motors[0].setPower(gamepadVector.y + gamepadVector.x + rx);
+        motors[1].setPower(gamepadVector.y - gamepadVector.x - rx);
+        motors[2].setPower(gamepadVector.y - gamepadVector.x + rx);
+        motors[3].setPower(gamepadVector.y + gamepadVector.x - rx);
     }
 
     public static Vector setElevatorBasedSpeed(double maxHeight, double currentHeight) {

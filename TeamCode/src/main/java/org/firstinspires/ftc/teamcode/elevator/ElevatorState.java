@@ -4,5 +4,5 @@ public enum ElevatorState {
     controller,
     uping,
     downing,
-    downed
+    downed,INTAKE, TRAVEL
 }

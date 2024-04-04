@@ -15,7 +15,7 @@ public class Elevator {
     static int currentWantedHeight;
     static int startHeight;
     public static int downedWantedHeight = 15;
-    public static int collWantedHeight = 300;
+        public static int intakeWantedHeight = 210;
     public static int lev2WantedHeight = 1500;
     public static int lev3WantedHeight = 1700;
 
@@ -41,16 +41,14 @@ public class Elevator {
         startHeight = getCurrentHeight(motors[0]);
 
         state = ElevatorState.downed;
-
-        canColl = false;
     }
 
     public static void downedLevel() {
         setWantedHeight(downedWantedHeight);
         setState(ElevatorState.downing);
     }
-    public static void collLevel() {
-        setWantedHeight(collWantedHeight);
+    public static void intakeLevel() {
+        setWantedHeight(intakeWantedHeight);
         setState(ElevatorState.uping);
     }
     public static void level1() {
@@ -63,11 +61,6 @@ public class Elevator {
         setState(ElevatorState.uping);
     }
     public static void stateBased(Telemetry telemetry) {
-        if (getWantedHeight() >= collWantedHeight && getWantedHeight() <= collWantedHeight + 50) {
-            canColl = true;
-        } else {
-            canColl = false;
-        }
 
         switch (state) {
             // switch to controller.
@@ -121,6 +114,9 @@ public class Elevator {
             motor.setPower((vMax - vMin)/((getWantedHeight() * per2) - getWantedHeight()) * currentHeight + (vMin * per2 - vMax)/(per2 - 1));
 
         }
+    }
+    public static int getPos() {
+        return motors[1].getCurrentPosition();
     }
 
     static void down(DcMotor motor) {
@@ -221,6 +217,6 @@ public class Elevator {
     }
 
     // get current height.
-    public static int getCurrentHeight(DcMotor motor) { return currentHeight = Math.abs(motor.getCurrentPosition()) - startHeight; }
+    public static int getCurrentHeight(DcMotor motor) { return currentHeight = Math.abs(motor.getCurrentPosition());}
 
 }

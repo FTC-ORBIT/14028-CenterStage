@@ -14,23 +14,23 @@ public class Catcher {
         isBoxOpen = false;
     }
 
-    public static void openCatcher() {
-        if (isBoxOpen) return;
+    public static void intakeCatcher() {
+        if (!isBoxOpen) return;
         Pixel.open();
     }
 
-    public static void closeCatcher() {
+    public static void deplateCatcher() {
         Pixel.close();
     }
 
-    public static void openBox() {
-        Box.open();
+    public static void intakeBox() {
+        Box.intake();
         Pixel.close();
         isBoxOpen = true;
     }
 
-    public static void closeBox() {
-        Box.close();
+    public static void deplateBox() {
+        Box.deplate();
         Pixel.boxClose();
         isBoxOpen = false;
     }
