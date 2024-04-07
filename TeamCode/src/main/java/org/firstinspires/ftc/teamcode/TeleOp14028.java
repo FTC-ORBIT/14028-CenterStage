@@ -38,47 +38,19 @@ public class TeleOp14028 extends OpMode {
         // drive and robot using the controller gamepad1.
         Drive.drive(telemetry);
 
-//        // check if the controller right y stick has any input, and move t e elevator
-//        // according to it.
-//        if (gamepad1.dpad_right) {
-//            Elevator.setState(ElevatorState.controller);
-//        }
-//        // check if the dpad_up button is clicked - set the state of the elevator to up.
-//        else if (gamepad1.dpad_left) {
-//            Elevator.level1();
-//        } else if (gamepad1.dpad_up) {
-//            Elevator.level2();
-//        }
-//        // check if the dpad_down button is clicked - set the state of the elevator to
-//        // down.
-//        else if (gamepad1.dpad_down && !Elevator.isDown()) {
-//            Elevator.downedLevel();
-//        }
-
         if (gamepad1.a) {
             Catcher.intakeCatcher();
         } else if (gamepad1.x) {
             Catcher.deplateCatcher();
         } else if (gamepad1.b) {
-            Elevator.intakeLevel();
+            Elev.setState(ElevatorState.INTAKE);
+            Catcher.intakeBox();
         } else if (gamepad1.y) {
             Catcher.deplateBox();
-        } else if (gamepad1.dpad_down) {
-            state = ElevatorState.TRAVEL;
-        } else if (gamepad1.dpad_up) {
-            state = ElevatorState.INTAKE;
+            Elev.setState(ElevatorState.TRAVEL);
         }
-        Elev.setElevatorPower(gamepad1.right_stick_y);
-        //Elev.operate(state);
-        // power the motors based on the state of the elevator
 
-//        telemetry.addData("elevator height in ticks", Elevator.getCurrentHeight(Elevator.motors[0]));
-//        telemetry.addData("elevator height in ticks", Elevator.getCurrentHeight(Elevator.motors[1]));
-//        telemetry.addData("Elevator State", Elevator.getState());
-//        telemetry.addData("Wanted Height", Elevator.getWantedHeight());
-        telemetry.addData("Pixel Servo Position", Pixel.getPosition());
-        telemetry.addData("Box Servo Position", Box.getPosition());
-        //telemetry.addData("height", Elevator.getPos());
-        telemetry.update();
+        Elev.updateHeight();
+        // power the motors based on the state of the elevator
     }
 }

@@ -16,8 +16,8 @@ public class Elevator {
     static int startHeight;
     public static int downedWantedHeight = 15;
         public static int intakeWantedHeight = 210;
-    public static int lev2WantedHeight = 1500;
-    public static int lev3WantedHeight = 1700;
+    public static int lev1WantedHeight = 1500;
+    public static int lev2WantedHeight = 1700;
 
     public static boolean canColl;
 
@@ -38,7 +38,7 @@ public class Elevator {
         motors[0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        startHeight = getCurrentHeight(motors[0]);
+        startHeight = getPos(motors[0]);
 
         state = ElevatorState.downed;
     }
@@ -52,12 +52,12 @@ public class Elevator {
         setState(ElevatorState.uping);
     }
     public static void level1() {
-        setWantedHeight(lev2WantedHeight);
+        setWantedHeight(lev1WantedHeight);
         setState(ElevatorState.uping);
     }
 
     public static void level2() {
-        setWantedHeight(lev3WantedHeight);
+        setWantedHeight(lev2WantedHeight);
         setState(ElevatorState.uping);
     }
     public static void stateBased(Telemetry telemetry) {
@@ -93,7 +93,7 @@ public class Elevator {
     static void up(DcMotor motor) {
         // setting min and max volt
         double vMin = 0.6, vMax = 0.9;
-        currentHeight = getCurrentHeight(motor);
+        currentHeight = getPos(motor);
 
         // if the elevator is at or above wanted height
         if (currentHeight >= getWantedHeight()) {
@@ -115,15 +115,12 @@ public class Elevator {
 
         }
     }
-    public static int getPos() {
-        return motors[1].getCurrentPosition();
-    }
 
     static void down(DcMotor motor) {
         // setting min and max volt, and timer time and power.
         double vMin = -0.4, vMax = -0.7;
 
-        currentHeight = getCurrentHeight(motor);
+        currentHeight = getPos(motor);
 
         if (currentHeight <= getWantedHeight()) {
             motor.setPower(0);
@@ -163,7 +160,7 @@ public class Elevator {
         }
 
         // calculate the difference between the encoders.
-        int dif = getCurrentHeight(motors[0]) - getCurrentHeight(motors[1]);
+        int dif = getPos(motors[0]) - getPos(motors[1]);
 
         // multiply the difference by a small number.
         double prop = dif * 0.001;
@@ -216,7 +213,7 @@ public class Elevator {
         Elevator.currentWantedHeight = currentWantedHeight;
     }
 
-    // get current height.
-    public static int getCurrentHeight(DcMotor motor) { return currentHeight = Math.abs(motor.getCurrentPosition());}
+    // get motor Position.
+    public static int getPos(DcMotor motor) { return currentHeight = Math.abs(motor.getCurrentPosition());}
 
 }
