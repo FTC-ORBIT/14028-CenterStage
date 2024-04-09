@@ -24,13 +24,16 @@ public class TeleOp14028 extends OpMode {
         CHGyro.init(hardwareMap);
 
         // Initialize elevator's hardware map.
-        //Elevator.init(hardwareMap, gamepad1);
-        Elev.init(hardwareMap);
+        Elevator.init(hardwareMap, gamepad1);
+        //Elev.init(hardwareMap);
+
         // Initialize catcher's(Box and Pixel together) hardware map.
         Catcher.init(hardwareMap);
 
         // Initialize Airplane's hardware map.
         // Airplane.init(hardwareMap);
+
+        state = ElevatorState.TRAVEL;
     }
 
     @Override
@@ -38,19 +41,31 @@ public class TeleOp14028 extends OpMode {
         // drive and robot using the controller gamepad1.
         Drive.drive(telemetry);
 
-        if (gamepad1.a) {
-            Catcher.intakeCatcher();
-        } else if (gamepad1.x) {
-            Catcher.deplateCatcher();
-        } else if (gamepad1.b) {
-            Elev.setState(ElevatorState.INTAKE);
-            Catcher.intakeBox();
+//        if (gamepad1.a) {
+//            //Catcher.intakeCatcher();
+//        } else if (gamepad1.x) {
+//            //Catcher.deplateCatcher();
+//        } else if (gamepad1.b) {
+//            Elev.goToPosition(1000);
+//            //state = ElevatorState.INTAKE;
+//            //Catcher.intakeBox();
+//        } else if (gamepad1.y) {
+//            //Catcher.deplateBox();
+//            state = ElevatorState.TRAVEL;
+//            Elev.goToPosition(15);
+//        }
+
+//        Elev.setElevatorPower(gamepad1.right_stick_y);
+//        Elev.operate(state);
+
+        if (gamepad1.b) {
+            Elevator.intakeLevel();
         } else if (gamepad1.y) {
-            Catcher.deplateBox();
-            Elev.setState(ElevatorState.TRAVEL);
+            Elevator.downedLevel();
         }
 
-        Elev.updateHeight();
-        // power the motors based on the state of the elevator
+        Elevator.stateBased(telemetry);
+
+        telemetry.addData("Elevator Height", Elevator.getPos(Elevator.motors[0]));
     }
 }

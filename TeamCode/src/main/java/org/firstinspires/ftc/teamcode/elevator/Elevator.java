@@ -15,7 +15,7 @@ public class Elevator {
     static int currentWantedHeight;
     static int startHeight;
     public static int downedWantedHeight = 15;
-        public static int intakeWantedHeight = 210;
+        public static int intakeWantedHeight = 500;
     public static int lev1WantedHeight = 1500;
     public static int lev2WantedHeight = 1700;
 
@@ -55,13 +55,11 @@ public class Elevator {
         setWantedHeight(lev1WantedHeight);
         setState(ElevatorState.uping);
     }
-
     public static void level2() {
         setWantedHeight(lev2WantedHeight);
         setState(ElevatorState.uping);
     }
     public static void stateBased(Telemetry telemetry) {
-
         switch (state) {
             // switch to controller.
             case controller:
@@ -80,9 +78,9 @@ public class Elevator {
                 down(motors[0]);
                 down(motors[1]);
                 break;
-        }
+           }
 
-        proportion();
+        //proportion();
     }
 
     public static void controllerBased() {
@@ -214,6 +212,6 @@ public class Elevator {
     }
 
     // get motor Position.
-    public static int getPos(DcMotor motor) { return currentHeight = Math.abs(motor.getCurrentPosition());}
+    public static int getPos(DcMotor motor) { return Math.abs(motor.getCurrentPosition());}
 
 }
