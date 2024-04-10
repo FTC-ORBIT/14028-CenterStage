@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Box {
     public static boolean isOpen;
     public static Servo servo;
-    final static double intakePosition = 0;
-    final static double deplatePosition = 0.2;
+    final static double intakePosition = 0.05;
+    final static double deplatePosition = 0.3;
 
     public static void init(HardwareMap hardwareMap) {
         servo = hardwareMap.get(Servo.class, "box");

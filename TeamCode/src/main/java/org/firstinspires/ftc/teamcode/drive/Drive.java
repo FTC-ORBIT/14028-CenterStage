@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.elevator.Elevator;
 import org.firstinspires.ftc.teamcode.elevator.ElevatorState;
 import org.firstinspires.ftc.teamcode.sensor.CHGyro;
 import org.firstinspires.ftc.teamcode.utils.Angle;
@@ -64,9 +63,9 @@ public class Drive {
 
     public static Vector setElevatorBasedSpeed(double maxHeight, double currentHeight) {
         // If the elevator is in the downed state, the speed of the robot remains the same.
-        if (Elevator.getState() == ElevatorState.downed) {
-            return new Vector(gamepadVector.x, gamepadVector.y);
-        }
+        //if (Elevator.getState() == ElevatorState.downed) {
+          //  return new Vector(gamepadVector.x, gamepadVector.y);
+        //}
 
         // If the current height of the elevator is greater than or equal to the maximum height,
         // the speed of the robot is set to 0.2 volt in the direction of the gamepad.
