@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Catcher {
 
     public static boolean isBoxOpen;
-    static double dropPosition;
 
     public static void init(HardwareMap hardwareMap) {
         Box.init(hardwareMap);
@@ -34,9 +33,5 @@ public class Catcher {
         Box.deplate();
         Pixel.boxClose();
         isBoxOpen = false;
-    }
-
-    public static void drop() {
-        Pixel.setPosition(dropPosition);
     }
 }
