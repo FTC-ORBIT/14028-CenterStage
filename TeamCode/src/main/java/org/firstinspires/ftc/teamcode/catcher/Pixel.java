@@ -13,7 +13,7 @@ public class Pixel {
     final static double closedPosition = 0.45;
 
     public static void init(HardwareMap hardwareMap) {
-        servo = hardwareMap.get(Servo.class, "pl");
+        servo = hardwareMap.get(Servo.class, "pixel");
         servo.setDirection(Servo.Direction.FORWARD);
         //isOpen = false;
     }
