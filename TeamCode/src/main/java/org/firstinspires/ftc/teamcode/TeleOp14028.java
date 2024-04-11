@@ -59,6 +59,5 @@ public class TeleOp14028 extends OpMode {
         }
 
         Elevator.operate(state);
-        //telemetry.addData("Servo Angle", Pixel.getPosition());
     }
 }

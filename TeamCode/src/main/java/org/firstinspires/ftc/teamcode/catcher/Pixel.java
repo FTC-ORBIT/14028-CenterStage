@@ -8,9 +8,9 @@ public class Pixel {
 
     //public static boolean isOpen;
 
-    final static double openPosition = 0.14;
-    final static double boxClosedPosition = 0.7;
-    final static double closedPosition = 0.45;
+    final static double intakePosition = 0.14;
+    final static double boxDeplatedPosition = 0.7;
+    final static double deplatePosition = 0.45;
 
     public static void init(HardwareMap hardwareMap) {
         servo = hardwareMap.get(Servo.class, "pixel");
@@ -19,16 +19,16 @@ public class Pixel {
     }
 
     public static void open() {
-        servo.setPosition(openPosition);
+        servo.setPosition(intakePosition);
         //isOpen = true;
     }
 
     public static void boxClose() {
-        servo.setPosition(boxClosedPosition);
+        servo.setPosition(boxDeplatedPosition);
     }
 
     public static void close() {
-        servo.setPosition(closedPosition);
+        servo.setPosition(deplatePosition);
         //isOpen = false;
     }
 
