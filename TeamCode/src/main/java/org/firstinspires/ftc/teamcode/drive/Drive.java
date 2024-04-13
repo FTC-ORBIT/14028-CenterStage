@@ -32,7 +32,7 @@ public class Drive {
         }
     }
 
-    public static void drive(Telemetry telemetry) {
+    public static void drive() {
         double rx = gamepad.right_trigger- gamepad.left_trigger;
 
         double robotAngle = Angle.wrapAngle0_360(CHGyro.getAngle());

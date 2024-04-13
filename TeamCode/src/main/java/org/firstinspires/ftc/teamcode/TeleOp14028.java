@@ -38,7 +38,7 @@ public class TeleOp14028 extends OpMode {
     @Override
     public void loop() {
         // drive and robot using the controller gamepad1.
-        Drive.drive(telemetry);
+        Drive.drive();
 
         if (gamepad1.right_bumper) {
             Catcher.intakeCatcher();
@@ -52,7 +52,7 @@ public class TeleOp14028 extends OpMode {
             state = ElevatorState.TRAVEL;
         } else if(gamepad1.dpad_down) {
             state = ElevatorState.LEVEL1;
-        } else if (gamepad1.dpad_right || gamepad1.dpad_left) {
+        } else if (gamepad1.dpad_right) {
             state = ElevatorState.LEVEL2;
         } else if (gamepad1.back) {
             CHGyro.resetGyro();
