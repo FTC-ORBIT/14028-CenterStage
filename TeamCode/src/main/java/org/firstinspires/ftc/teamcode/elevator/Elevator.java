@@ -77,5 +77,5 @@ public class Elevator {
 
         Motors.setPowerMotorList(motors, power);
     }
-    public static int getPos() { return motors[1].getCurrentPosition();}
+    public static int getPos() { return motors[1].getCurrentPosition(); }
 }
