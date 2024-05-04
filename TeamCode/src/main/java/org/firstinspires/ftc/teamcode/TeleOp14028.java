@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.catcher.Catcher;
 import org.firstinspires.ftc.teamcode.catcher.Pixel;
@@ -13,6 +14,10 @@ import org.firstinspires.ftc.teamcode.sensor.CHGyro;
 @TeleOp(name = "TeleOp14028")
 public class TeleOp14028 extends OpMode {
     ElevatorState state;
+
+    ElapsedTime travelTime = new ElapsedTime();
+    boolean shouldTravel;
+
     @Override
     public void init() {
         // Initialize drive's the hardware map.
@@ -33,6 +38,7 @@ public class TeleOp14028 extends OpMode {
 
         Catcher.deplateBox();
         state = ElevatorState.TRAVEL;
+        shouldTravel = false;
     }
 
     @Override
@@ -40,7 +46,9 @@ public class TeleOp14028 extends OpMode {
         // drive and robot using the controller gamepad1.
         Drive.drive();
 
-        if (gamepad1.right_bumper) {
+        if (gamepad1.right_bumper && state == ElevatorState.LEVEL1) {
+            Catcher.dropPixel();
+        } else if (gamepad1.right_bumper) {
             Catcher.intakeCatcher();
         } else if (gamepad1.left_bumper) {
             Catcher.deplateCatcher();
@@ -48,14 +56,22 @@ public class TeleOp14028 extends OpMode {
             state = ElevatorState.INTAKE;
             Catcher.intakeBox();
         } else if (gamepad1.x) {
+
             Catcher.deplateBox();
-            state = ElevatorState.TRAVEL;
+            travelTime.reset();
+            shouldTravel = true;
+
         } else if(gamepad1.dpad_down) {
             state = ElevatorState.LEVEL1;
         } else if (gamepad1.dpad_right) {
             state = ElevatorState.LEVEL2;
         } else if (gamepad1.back) {
             CHGyro.resetGyro();
+        }
+
+        if (travelTime.seconds() > 0.1 && shouldTravel == true) {
+            state = ElevatorState.TRAVEL;
+            shouldTravel = false;
         }
 
         Elevator.operate(state);

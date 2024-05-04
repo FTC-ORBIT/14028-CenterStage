@@ -34,4 +34,8 @@ public class Catcher {
         Pixel.boxClose();
         isBoxOpen = false;
     }
+
+    public static void dropPixel() {
+        Pixel.setPosition(0.6);
+    }
 }
