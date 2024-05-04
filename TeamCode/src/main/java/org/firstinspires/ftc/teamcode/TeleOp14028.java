@@ -69,7 +69,7 @@ public class TeleOp14028 extends OpMode {
             CHGyro.resetGyro();
         }
 
-        if (travelTime.seconds() > 0.1 && shouldTravel == true) {
+        if (travelTime.seconds() > 0.5 && shouldTravel) {
             state = ElevatorState.TRAVEL;
             shouldTravel = false;
         }
