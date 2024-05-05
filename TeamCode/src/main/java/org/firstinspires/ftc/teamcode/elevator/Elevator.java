@@ -29,10 +29,10 @@ public class Elevator {
     }
 
     public static void operate(ElevatorState state) {
-        if ((motors[0].getCurrentPosition() < 0 || motors[1].getCurrentPosition() < 0) || (motors[0].getCurrentPosition() > maxEncoderTick || motors[1].getCurrentPosition() > maxEncoderTick)) {
-            stop();
-            return;
-        }
+//        if ((motors[0].getCurrentPosition() < 0 || motors[1].getCurrentPosition() < 0) || (motors[0].getCurrentPosition() > maxEncoderTick || motors[1].getCurrentPosition() > maxEncoderTick)) {
+//            stop();
+//            return;
+//        }
 
         switch (state) {
             case TRAVEL:

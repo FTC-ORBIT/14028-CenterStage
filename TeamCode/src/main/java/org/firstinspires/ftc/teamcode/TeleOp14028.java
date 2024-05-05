@@ -37,7 +37,7 @@ public class TeleOp14028 extends OpMode {
         // Airplane.init(hardwareMap);
 
         Catcher.deplateBox();
-        state = ElevatorState.TRAVEL;
+        state = ElevatorState.INTAKE;
         shouldTravel = false;
     }
 
@@ -46,21 +46,18 @@ public class TeleOp14028 extends OpMode {
         // drive and robot using the controller gamepad1.
         Drive.drive();
 
-        if (gamepad1.right_bumper && state == ElevatorState.LEVEL1) {
+        if (gamepad1.right_bumper && (state == ElevatorState.LEVEL1 || state == ElevatorState.LEVEL2)) {
             Catcher.dropPixel();
         } else if (gamepad1.right_bumper) {
             Catcher.intakeCatcher();
-        } else if (gamepad1.left_bumper) {
+        } else if (gamepad1.left_bumper && Catcher.isBoxOpen) {
             Catcher.deplateCatcher();
         } else if (gamepad1.a) {
             state = ElevatorState.INTAKE;
             Catcher.intakeBox();
         } else if (gamepad1.x) {
-
             Catcher.deplateBox();
-            travelTime.reset();
-            shouldTravel = true;
-
+            //state = ElevatorState.TRAVEL;
         } else if(gamepad1.dpad_down) {
             state = ElevatorState.LEVEL1;
         } else if (gamepad1.dpad_right) {
@@ -69,10 +66,10 @@ public class TeleOp14028 extends OpMode {
             CHGyro.resetGyro();
         }
 
-        if (travelTime.seconds() > 0.5 && shouldTravel) {
+        /*if (travelTime.seconds() > 0.5 && shouldTravel) {
             state = ElevatorState.TRAVEL;
             shouldTravel = false;
-        }
+        }*/
 
         Elevator.operate(state);
     }

@@ -24,8 +24,7 @@ public class Catcher {
 
     public static void intakeBox() {
         Box.intake();
-        //Pixel.close();
-        Pixel.open();
+        Pixel.close();
         isBoxOpen = true;
     }
 
