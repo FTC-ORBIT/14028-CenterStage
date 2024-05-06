@@ -11,7 +11,7 @@ public class Elevator {
     public static int maxEncoderTick = 2000;
     static int travelHeight = 15;
     static int intakeHeight = 210;
-    static int level1Height = 1000;
+    public static int level1Height = 1000;
     static int level2Height = 1500;
     static int climbHeight = 15;
 
@@ -77,5 +77,5 @@ public class Elevator {
 
         Motors.setPowerMotorList(motors, power);
     }
-    public static int getPos() { return motors[1].getCurrentPosition(); }
+    public static int getPos() { return Math.abs(motors[1].getCurrentPosition()); }
 }

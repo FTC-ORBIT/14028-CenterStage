@@ -46,22 +46,24 @@ public class TeleOp14028 extends OpMode {
         // drive and robot using the controller gamepad1.
         Drive.drive();
 
-        if (gamepad1.right_bumper && (state == ElevatorState.LEVEL1 || state == ElevatorState.LEVEL2)) {
+        if (gamepad1.right_bumper && Elevator.getPos() >= Elevator.level1Height) {
             Catcher.dropPixel();
         } else if (gamepad1.right_bumper) {
             Catcher.intakeCatcher();
         } else if (gamepad1.left_bumper && Catcher.isBoxOpen) {
             Catcher.deplateCatcher();
-        } else if (gamepad1.a) {
-            state = ElevatorState.INTAKE;
+        } else if (gamepad1.a && Elevator.getPos() < Elevator.level1Height) {
             Catcher.intakeBox();
-        } else if (gamepad1.x) {
+        } else if (gamepad1.x && Elevator.getPos() < Elevator.level1Height) {
+            state = ElevatorState.INTAKE;
             Catcher.deplateBox();
             //state = ElevatorState.TRAVEL;
         } else if(gamepad1.dpad_down) {
             state = ElevatorState.LEVEL1;
+            Catcher.deplateBox();
         } else if (gamepad1.dpad_right) {
             state = ElevatorState.LEVEL2;
+            Catcher.deplateBox();
         } else if (gamepad1.back) {
             CHGyro.resetGyro();
         }
