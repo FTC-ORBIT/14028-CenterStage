@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.elevator;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.utils.Motors;
@@ -28,7 +29,7 @@ public class Elevator {
         motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public static void operate(ElevatorState state) {
+    public static void operate(ElevatorState state, Gamepad gamepad) {
 //        if ((motors[0].getCurrentPosition() < 0 || motors[1].getCurrentPosition() < 0) || (motors[0].getCurrentPosition() > maxEncoderTick || motors[1].getCurrentPosition() > maxEncoderTick)) {
 //            stop();
 //            return;
@@ -50,18 +51,22 @@ public class Elevator {
             case CLIMB:
                 goToPosition(climbHeight);
                 break;
+            case CONTROLLER:
+                setElevatorPower(gamepad);
+                break;
         }
     }
 
-    public static void setElevatorPower(double power){
+    public static void setElevatorPower(Gamepad gamepad){
         motors[0].setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motors[1].setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        if ((motors[0].getCurrentPosition() < 0 || motors[1].getCurrentPosition() < 0) || (motors[0].getCurrentPosition() > maxEncoderTick || motors[1].getCurrentPosition() > maxEncoderTick)) {
-            stop();
-            return;
+
+        motors[0].setPower(gamepad.right_stick_y);
+        motors[1].setPower(gamepad.right_stick_y);
+
+        if (gamepad.right_stick_y == 0) {
+            goToPosition(Elevator.getPos());
         }
-        motors[0].setPower(power);
-        motors[1].setPower(power);
     }
     public static void stop(){
         motors[0].setPower(0);

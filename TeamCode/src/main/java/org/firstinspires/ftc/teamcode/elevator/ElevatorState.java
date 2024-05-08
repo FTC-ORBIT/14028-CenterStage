@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.elevator;
 
 public enum ElevatorState {
-    controller,
+    CONTROLLER,
     LEVEL1,
     LEVEL2,
     CLIMB,
