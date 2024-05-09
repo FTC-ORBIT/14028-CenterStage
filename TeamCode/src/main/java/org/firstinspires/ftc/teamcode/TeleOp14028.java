@@ -52,7 +52,7 @@ public class TeleOp14028 extends OpMode {
             Catcher.intakeCatcher();
         } else if (gamepad1.left_bumper && Catcher.isBoxOpen) {
             Catcher.deplateCatcher();
-        } else if (gamepad1.a && Elevator.getPos() < Elevator.level1Height + 10) {
+        } else if (gamepad1.a && Elevator.getPos() < Elevator.level1Height + 30) {
             Catcher.intakeBox();
         } else if (gamepad1.x) {
             state = ElevatorState.INTAKE;

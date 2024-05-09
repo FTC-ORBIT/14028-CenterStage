@@ -9,8 +9,8 @@ public class Pixel {
     //public static boolean isOpen;
 
     final static double intakePosition = 0.14;
-    final static double boxDeplatedPosition = 0.7;
-    final static double deplatePosition = 0.45;
+    final static double boxDeplatedPosition = 0.72;
+    final static double deplatePosition = 0.47;
 
     public static void init(HardwareMap hardwareMap) {
         servo = hardwareMap.get(Servo.class, "pixel");
