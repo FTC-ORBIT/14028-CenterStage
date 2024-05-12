@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive;
 
+import android.widget.Switch;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -14,7 +16,6 @@ import org.firstinspires.ftc.teamcode.utils.Vector;
 public class Drive {
     static DcMotor[] motors = new DcMotor[4];
 
-    public static Vector gamepadVector;
     static Gamepad gamepad;
 
     public static void init(HardwareMap hardwareMap, Gamepad gamepad) {
@@ -33,19 +34,29 @@ public class Drive {
         }
     }
 
-    public static void drive() {
-        double rx = gamepad.right_trigger- gamepad.left_trigger;
-
+    public static void drive(Vector gamepadVector, double rx, DriveState state) {
         double robotAngle = Angle.wrapAngle0_360(CHGyro.getAngle());
-
-        gamepadVector = new Vector(gamepad.left_stick_x, -gamepad.left_stick_y);
         gamepadVector = gamepadVector.rotate(-Math.toRadians(robotAngle));
 
-        //gamepadVector = gamepadVector.scale(Math.max(0.34, (2000 - Elevator.getPos()) / 2000));
+        switch (state) {
+            case SLOW:
+                gamepadVector = driveScale(gamepadVector, 0.5);
+            case NORMAL:
+                gamepadVector = driveScale(gamepadVector, 1);
+        }
+
 
         motors[0].setPower(gamepadVector.y + gamepadVector.x + rx);
         motors[1].setPower(gamepadVector.y - gamepadVector.x - rx);
         motors[2].setPower(gamepadVector.y - gamepadVector.x + rx);
         motors[3].setPower(gamepadVector.y + gamepadVector.x - rx);
+    }
+
+    public static Vector slowedDrive(Vector vector) {
+        return vector.scale(Math.max(0.32, (double) (2000 - Elevator.getPos()) / 2000));
+    }
+
+    public static Vector driveScale(Vector vector, double scaling) {
+        return vector.scale(scaling);
     }
 }

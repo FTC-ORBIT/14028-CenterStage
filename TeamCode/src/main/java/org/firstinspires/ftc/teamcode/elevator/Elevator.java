@@ -14,6 +14,7 @@ public class Elevator {
     static int intakeHeight = 210;
     public static int level1Height = 1000;
     static int level2Height = 1500;
+    static int level3Height = 1750;
     static int climbHeight = 15;
 
     public static double power = 0.6;
@@ -34,7 +35,9 @@ public class Elevator {
 //            stop();
 //            return;
 //        }
-
+        if (motors[1].getCurrentPosition() < 200) {
+            stop();
+        }
         switch (state) {
             case TRAVEL:
                 goToPosition(travelHeight);
@@ -47,6 +50,9 @@ public class Elevator {
                 break;
             case LEVEL2:
                 goToPosition(level2Height);
+                break;
+            case LEVEL3:
+                goToPosition(level3Height);
                 break;
             case CLIMB:
                 goToPosition(climbHeight);
@@ -64,9 +70,9 @@ public class Elevator {
         motors[0].setPower(gamepad.right_stick_y);
         motors[1].setPower(gamepad.right_stick_y);
 
-        if (gamepad.right_stick_y == 0) {
-            goToPosition(Elevator.getPos());
-        }
+//        if (gamepad.right_stick_y == 0) {
+//            goToPosition(Elevator.getPos());
+//        }
     }
     public static void stop(){
         motors[0].setPower(0);

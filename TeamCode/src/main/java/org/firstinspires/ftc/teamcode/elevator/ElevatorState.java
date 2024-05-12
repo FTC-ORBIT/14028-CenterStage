@@ -4,6 +4,7 @@ public enum ElevatorState {
     CONTROLLER,
     LEVEL1,
     LEVEL2,
+    LEVEL3,
     CLIMB,
     INTAKE, TRAVEL
 }
