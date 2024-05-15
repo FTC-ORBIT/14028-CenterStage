@@ -9,7 +9,7 @@ public class Pixel {
     //public static boolean isOpen;
 
     final static double intakePosition = 0.14;
-    final static double boxDeplatedPosition = 0.74;
+    final static double boxDeplatedPosition = 0.73;
     final static double deplatePosition = 0.47;
 
     public static void init(HardwareMap hardwareMap) {

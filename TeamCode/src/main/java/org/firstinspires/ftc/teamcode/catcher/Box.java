@@ -7,7 +7,7 @@ public class Box {
     public static boolean isOpen;
     public static Servo servo;
     final static double intakePosition = 0.05;
-    final static double deplatePosition = 0.3;
+    final static double deplatePosition = 0.27;
 
     public static void init(HardwareMap hardwareMap) {
         servo = hardwareMap.get(Servo.class, "box");
