@@ -6,13 +6,17 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Airplane {
 
     static Servo servo;
-    static int launchPosition;
+    static int closePos = 0;
+    static int openPos = 0;
 
     public static void init(HardwareMap hardwareMap) {
         servo = hardwareMap.get(Servo.class, "aps");
     }
 
     public static void launch() {
-        servo.setPosition(launchPosition);
+        servo.setPosition(openPos);
+    }
+    public static void close() {
+        servo.setPosition(closePos);
     }
 }
