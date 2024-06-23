@@ -61,9 +61,9 @@ public class TeleOp14028 extends OpMode {
                 driveState = DriveState.SLOW;
                 Catcher.intakeBox();
             } else if (gamepad1.x) {
-                state = ElevatorState.INTAKE;
                 driveState = DriveState.NORMAL;
                 Catcher.deplateBox();
+                state = ElevatorState.INTAKE;
             } else if(gamepad1.dpad_down) {
                 state = ElevatorState.LEVEL1;
                 Catcher.deplateBox();
