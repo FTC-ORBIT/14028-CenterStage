@@ -17,9 +17,7 @@ import org.firstinspires.ftc.teamcode.utils.Vector;
 @TeleOp(name = "TeleOp14028")
 public class TeleOp14028 extends OpMode {
     ElevatorState state;
-
     DriveState driveState;
-    ElapsedTime travelTime = new ElapsedTime();
     boolean shouldTravel;
 
     @Override
@@ -38,7 +36,7 @@ public class TeleOp14028 extends OpMode {
         Catcher.init(hardwareMap);
 
         // Initialize Airplane's hardware map.
-        // Airplane.init(hardwareMap);
+        Airplane.init(hardwareMap);
 
         Catcher.deplateBox();
         driveState = DriveState.NORMAL;
@@ -66,7 +64,6 @@ public class TeleOp14028 extends OpMode {
                 state = ElevatorState.INTAKE;
                 driveState = DriveState.NORMAL;
                 Catcher.deplateBox();
-                //state = ElevatorState.TRAVEL;
             } else if(gamepad1.dpad_down) {
                 state = ElevatorState.LEVEL1;
                 Catcher.deplateBox();
@@ -79,12 +76,13 @@ public class TeleOp14028 extends OpMode {
             } else if (gamepad1.back) {
                 CHGyro.resetGyro();
             } else if (gamepad1.b) {
-                Airplane.launch();
+                Airplane.open();
             } else if (gamepad1.y) {
                 Airplane.close();
             }
         }
 
+        telemetry.addData("current servo location", Airplane.getPos());
         Drive.drive(Drive.slowedDrive(new Vector(gamepad1.left_stick_x, -gamepad1.left_stick_y)),gamepad1.right_trigger- gamepad1.left_trigger, driveState);
         Elevator.operate(state, gamepad1.right_stick_y);
     }
